@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="dc-runtime.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap">
+</head>
+<body>
+<x-dc>
+<helmet>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  
+  <style>
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{ margin:0; font-family:"Noto Sans SC",system-ui,sans-serif; color:#33485c; background:#f3fafe; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    img{ display:block; max-width:100%; }
+    a{ color:inherit; text-decoration:none; }
+    input,textarea,button{ font-family:inherit; }
+    ::selection{ background:#f8c5ac; color:#33485c; }
+    ::-webkit-scrollbar{ width:11px; }
+    ::-webkit-scrollbar-thumb{ background:#bfe0f5; border-radius:9px; border:3px solid #f3fafe; }
+    @keyframes riseP{ 0%{ transform:translateY(8vh) translateX(0); } 100%{ transform:translateY(-110vh) translateX(28px); } }
+    @keyframes fallP{ 0%{ transform:translateY(-12vh) translateX(0) rotate(0deg); } 100%{ transform:translateY(112vh) translateX(34px) rotate(220deg); } }
+    @keyframes twinkleP{ 0%,100%{ opacity:.12; transform:scale(.7);} 50%{ opacity:.95; transform:scale(1.15);} }
+    @keyframes bob{ 0%,100%{ transform:translateY(0) rotate(-1deg);} 50%{ transform:translateY(-16px) rotate(1deg);} }
+    @keyframes blobDrift{ 0%,100%{ transform:translate(0,0) scale(1);} 33%{ transform:translate(36px,-26px) scale(1.08);} 66%{ transform:translate(-26px,22px) scale(.94);} }
+    @keyframes scrollDot{ 0%{ transform:translateY(0); opacity:0;} 30%{ opacity:1;} 100%{ transform:translateY(20px); opacity:0;} }
+    @keyframes floatBadge{ 0%,100%{ transform:translateY(0) rotate(-6deg);} 50%{ transform:translateY(-10px) rotate(4deg);} }
+    @keyframes spinSlow{ from{ transform:rotate(0);} to{ transform:rotate(360deg);} }
+    @keyframes wobble{ 0%,100%{ transform:rotate(-3deg) translateY(0);} 50%{ transform:rotate(3deg) translateY(-7px);} }
+    @keyframes marquee{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+    @keyframes pawFade{ 0%{ opacity:.95; transform:translate(-50%,-50%) scale(1);} 100%{ opacity:0; transform:translate(-50%,-140%) scale(.35);} }
+    /* scrapbook photos */
+    #gallery figure, #fursuit figure{ transition:transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease, opacity .85s cubic-bezier(.16,1,.3,1), filter .85s cubic-bezier(.16,1,.3,1) !important; }
+    #gallery figure:nth-of-type(4n+1), #fursuit figure:nth-of-type(4n+1){ transform:rotate(-2.3deg); }
+    #gallery figure:nth-of-type(4n+2), #fursuit figure:nth-of-type(4n+2){ transform:rotate(1.9deg); }
+    #gallery figure:nth-of-type(4n+3), #fursuit figure:nth-of-type(4n+3){ transform:rotate(-1.1deg); }
+    #gallery figure:nth-of-type(4n),   #fursuit figure:nth-of-type(4n){ transform:rotate(2.5deg); }
+    #gallery figure:hover, #fursuit figure:hover{ transform:rotate(0) translateY(-7px) scale(1.025) !important; z-index:5; box-shadow:0 24px 50px rgba(76,130,170,.3) !important; }
+    #gallery figure::before, #fursuit figure::before{ content:''; position:absolute; top:9px; left:50%; width:78px; height:22px; transform:translateX(-50%) rotate(-4deg); background:rgba(245,217,138,.5); box-shadow:0 2px 6px rgba(0,0,0,.08); z-index:4; pointer-events:none; }
+    #gallery figure:nth-of-type(even)::before, #fursuit figure:nth-of-type(even)::before{ transform:translateX(-50%) rotate(5deg); background:rgba(169,217,245,.5); }
+  .rp-more-btn{ transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease; }
+.rp-more-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(76,130,170,.22); border-color:var(--accent); color:var(--accent); }
+</style>
+</helmet>
+
+<div id="rainple-root" data-screen-label="雨枫 rainple 主页" style="--sky:#a9d9f5; --sky2:#cdeafb; --sky-deep:#6fb8e8; --cream:#f5d98a; --cream2:#fbe6bd; --coral:#f3805a; --ink:#33485c; --ink-soft:#62788b; --paper:#f3fafe; --accent:#f3805a; --hero-grad:linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%); position:relative; width:100%; overflow:hidden; color:var(--ink);">
+
+  <!-- ===== NAV ===== -->
+  <nav id="rp-nav" style="position:fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); transition:background .35s ease, box-shadow .35s ease, padding .35s ease;">
+    <a href="#top" style="display:flex; align-items:baseline; gap:10px;">
+      <span style="font-family:'ZCOOL KuaiLe',cursive; font-size:26px; color:var(--ink); line-height:1;">雨枫</span>
+      <span style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; letter-spacing:2px; color:var(--sky-deep);">rainple</span>
+    </a>
+    <div style="display:flex; align-items:center; gap:clamp(10px,2vw,30px); font-size:14px; font-weight:500;">
+      <a href="#about" style="position:relative; padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">关于</a>
+      <a href="#design" style="padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">设定</a>
+      <a href="#gallery" style="padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">画作</a>
+      <a href="#fursuit" style="padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">毛照</a>
+      <a href="#social" style="padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">社交</a>
+      <a href="/" style="padding:6px 16px; border-radius:999px; border:1.5px solid var(--sky-deep); color:var(--sky-deep);" style-hover="background:var(--sky-deep); color:#fff;">博客 →</a>
+      <a href="#contact" style="padding:8px 18px; border-radius:999px; background:var(--accent); color:#fff; box-shadow:0 6px 16px rgba(243,128,90,.35);" style-hover="transform:translateY(-2px); box-shadow:0 10px 22px rgba(243,128,90,.45);">留言</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header id="top" style="position:relative; min-height:100vh; display:flex; align-items:center; background:var(--hero-grad); padding:120px clamp(20px,5vw,64px) 80px;">
+    <div id="particle-layer" style="position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1;"></div>
+    <div id="rp-blob1" style="position:absolute; top:-8%; right:-6%; width:46vw; height:46vw; max-width:620px; max-height:620px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(255,255,255,.85), rgba(169,217,245,.35) 60%, transparent 72%); filter:blur(6px); animation:blobDrift 16s ease-in-out infinite; z-index:0;"></div>
+    <div id="rp-blob2" style="position:absolute; bottom:-14%; left:-10%; width:40vw; height:40vw; max-width:520px; max-height:520px; border-radius:50%; background:radial-gradient(circle at 50% 50%, rgba(251,230,189,.7), transparent 70%); filter:blur(10px); animation:blobDrift 22s ease-in-out infinite reverse; z-index:0;"></div>
+    <div style="position:absolute; inset:0; z-index:3; pointer-events:none;">
+      
+      <span style="position:absolute; top:32%; right:4%; padding:8px 15px; border-radius:14px; background:var(--cream); box-shadow:0 8px 20px rgba(245,217,138,.45); font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:#7a5a1d; animation:wobble 5s ease-in-out .5s infinite;">会喷火（并不）</span>
+      <span style="position:absolute; bottom:21%; left:6%; padding:8px 15px; border-radius:14px; background:#fff; box-shadow:0 8px 20px rgba(76,130,170,.18); font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:var(--sky-deep); animation:wobble 4.6s ease-in-out .9s infinite;">⚡ 耳朵会发光</span>
+    </div>
+
+    <div style="position:relative; z-index:3; width:100%; max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(24px,4vw,64px); align-items:center;">
+      <div>
+        <div data-reveal="" style="display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px; background:rgba(255,255,255,.7); backdrop-filter:blur(6px); font-family:'Fredoka',sans-serif; font-size:12px; font-weight:600; letter-spacing:3px; color:var(--sky-deep); box-shadow:0 4px 14px rgba(111,184,232,.18);">✦ 欢迎光临我的小窝 · welcome to my den</div>
+        <h1 data-reveal="" style="margin:22px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(72px,12vw,172px); line-height:.9; color:var(--ink); text-shadow:0 6px 0 rgba(255,255,255,.6);">雨枫</h1>
+        <div data-reveal="" style="margin:6px 0 0; font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(26px,4.4vw,52px); letter-spacing:8px; color:var(--sky-deep);">rainple</div>
+        <p data-reveal="" style="margin:26px 0 0; max-width:440px; font-size:clamp(15px,1.5vw,18px); line-height:1.9; color:var(--ink-soft);">嗨！我是雨枫～ 一只天蓝色的小狼龙。爱泡温泉、爱啃烤红薯，心情好的时候，耳朵上的闪电会偷偷发光⚡<br><span style="font-family:'Fredoka',sans-serif; font-size:14px; letter-spacing:.3px;">Hi! I'm rainple — a sky-blue wolfdragon who runs on hot springs, sweet potatoes, and a little bit of lightning. ⚡</span></p>
+        <div data-reveal="" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:34px;">
+          <a href="#design" style="padding:14px 30px; border-radius:999px; background:var(--accent); color:#fff; font-weight:600; font-size:15px; box-shadow:0 10px 24px rgba(243,128,90,.38);" style-hover="transform:translateY(-3px); box-shadow:0 16px 30px rgba(243,128,90,.48);">看我长啥样 ✦</a>
+          <a href="#gallery" style="padding:14px 30px; border-radius:999px; background:rgba(255,255,255,.85); color:var(--ink); font-weight:600; font-size:15px; box-shadow:0 8px 20px rgba(111,184,232,.22);" style-hover="transform:translateY(-3px); background:#fff;">翻翻相册 📸</a>
+        </div>
+        <div data-reveal="" style="display:flex; gap:20px; margin-top:30px; font-size:13px; color:var(--ink-soft);">
+          <span style="display:flex; align-items:center; gap:7px;"><span style="width:9px; height:9px; border-radius:50%; background:var(--sky);"></span>狼龙 · Wolfdragon</span>
+          <span style="display:flex; align-items:center; gap:7px;"><span style="width:9px; height:9px; border-radius:50%; background:var(--cream);"></span>天蓝 · 雪白 · 奶黄</span>
+        </div>
+      </div>
+
+      <div data-reveal="" style="position:relative; justify-self:center;">
+        <div id="rp-hero-img" style="position:relative; width:clamp(280px,38vw,480px); aspect-ratio:1/1; border-radius:36px; overflow:hidden; box-shadow:0 30px 70px rgba(76,130,170,.32); border:6px solid rgba(255,255,255,.85); animation:bob 7s ease-in-out infinite;">
+          <img src="assets/hero.jpg" alt="雨枫在温泉" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        
+        <div style="position:absolute; bottom:-18px; right:-18px; width:74px; height:74px; border-radius:50%; background:var(--cream); display:flex; align-items:center; justify-content:center; font-family:'Fredoka',sans-serif; font-weight:700; font-size:12px; color:#7a5a1d; box-shadow:0 10px 22px rgba(245,217,138,.5); animation:spinSlow 18s linear infinite;"><span style="display:block; text-align:center; line-height:1.2;">★<br>YUFENG</span></div>
+      </div>
+    </div>
+
+    <a href="#about" style="position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:4; display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--ink-soft); font-size:11px; letter-spacing:2px;">
+      <span>SCROLL</span>
+      <span style="position:relative; width:24px; height:38px; border:2px solid var(--sky-deep); border-radius:14px; display:block;"><span style="position:absolute; top:7px; left:50%; transform:translateX(-50%); width:5px; height:5px; border-radius:50%; background:var(--sky-deep); animation:scrollDot 1.6s ease-in-out infinite;"></span></span>
+    </a>
+  </header>
+
+  <!-- ===== MARQUEE ===== -->
+  <div aria-hidden="true" style="overflow:hidden; background:var(--accent); transform:rotate(-1.5deg) scale(1.04); margin:26px -12px; padding:13px 0; box-shadow:0 12px 30px rgba(243,128,90,.28);">
+    <div style="display:flex; width:max-content; white-space:nowrap; animation:marquee 26s linear infinite; font-family:'ZCOOL KuaiLe',cursive; font-size:21px; color:#fff; letter-spacing:1px;">
+      <span>雨枫 ✦ rainple ✦ 软萌狼龙 ✦ 会喷火（并不） ✦ 耳朵会发光⚡ ✦ 来找我玩呀 ✦&nbsp;</span>
+      <span>雨枫 ✦ rainple ✦ 软萌狼龙 ✦ 会喷火（并不） ✦ 耳朵会发光⚡ ✦ 来找我玩呀 ✦&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:#fff;">
+    <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(30px,5vw,80px); align-items:center;">
+      <div>
+        <div data-reveal="" style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">ABOUT · 关于</div>
+        <h2 data-reveal="" style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink); line-height:1.15;">先自我介绍一下！</h2>
+        <p data-reveal="" style="margin:26px 0 0; font-size:clamp(15px,1.4vw,17px); line-height:2; color:var(--ink-soft);">雨枫是一只温柔又有点小馋的小狼龙。喜欢在雾气腾腾的温泉里发呆，秋天会捧着热乎的烤红薯，冬夜把自己埋进雪和暖汤里。多条蓬松的尾巴是她的骄傲，而生气或开心时，耳朵上的闪电纹会轻轻亮起来。</p>
+        <p data-reveal="" style="margin:18px 0 0; font-family:'Fredoka',sans-serif; font-size:14px; line-height:1.95; color:var(--ink-soft);">rainple is a gentle, slightly greedy little wolfdragon. She loves daydreaming in steamy hot springs, holding a warm roasted sweet potato in autumn, and curling into snow and warm water on winter nights. Her fluffy tails are her pride — and when she's happy, the lightning marks on her ears softly glow.</p>
+      </div>
+      <div data-reveal="" style="position:relative;">
+        <div style="position:absolute; inset:-14px -14px auto auto; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,var(--sky2),transparent 70%); z-index:0;"></div>
+        <div style="position:relative; z-index:1; border-radius:28px; background:linear-gradient(180deg,#f7fcff,#eef7fe); border:1px solid #e1f0fb; box-shadow:0 24px 50px rgba(76,130,170,.16); overflow:hidden;">
+          <div style="padding:22px 26px; border-bottom:1px dashed #d4e8f7; display:flex; align-items:center; gap:10px;">
+            <span style="width:11px; height:11px; border-radius:50%; background:var(--coral);"></span>
+            <span style="width:11px; height:11px; border-radius:50%; background:var(--cream);"></span>
+            <span style="width:11px; height:11px; border-radius:50%; background:var(--sky);"></span>
+            <span style="margin-left:auto; font-family:'Fredoka',sans-serif; font-size:12px; letter-spacing:2px; color:var(--ink-soft);">PROFILE.CARD</span>
+          </div>
+          <div style="padding:8px 26px 26px;">
+            <sc-for list="{{ facts }}" as="f" hint-placeholder-count="6">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:15px 0; border-bottom:1px solid #ecf5fc;">
+                <span style="font-size:13px; color:var(--ink-soft); letter-spacing:1px;">{{ f.k }}</span>
+                <span style="font-size:15px; font-weight:600; color:var(--ink); text-align:right;">{{ f.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DESIGN / REFERENCE ===== -->
+  <section id="design" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:linear-gradient(180deg,#f3fafe,#eaf6fe);">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div data-reveal="" style="text-align:center;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">REFERENCE SHEET · 角色设定</div>
+        <h2 style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink);">我的配色 &amp; 零件 🧩</h2>
+      </div>
+
+      <!-- palette -->
+      <div data-reveal="" style="margin-top:54px; display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(12px,2vw,22px);">
+        <sc-for list="{{ palette }}" as="c" hint-placeholder-count="4">
+          <div data-card="" style="border-radius:22px; overflow:hidden; background:#fff; box-shadow:0 14px 32px rgba(76,130,170,.12);" style-hover="transform:translateY(-6px); box-shadow:0 22px 44px rgba(76,130,170,.2);">
+            <div style="height:120px; background:{{ c.hex }};"></div>
+            <div style="padding:16px 18px;">
+              <div style="font-weight:700; font-size:16px; color:var(--ink);">{{ c.name }}</div>
+              <div style="font-family:'Fredoka',sans-serif; font-size:13px; color:var(--ink-soft); letter-spacing:1px;">{{ c.hex }}</div>
+              <div style="font-size:12px; color:var(--ink-soft); margin-top:4px;">{{ c.use }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- features + traits -->
+      <div style="margin-top:clamp(36px,5vw,60px); display:grid; grid-template-columns:1.25fr .75fr; gap:clamp(24px,4vw,48px); align-items:start;">
+        <div data-reveal="">
+          <h3 style="font-family:'ZCOOL KuaiLe',cursive; font-size:24px; color:var(--ink); margin:0 0 18px;">外观特征 · Features</h3>
+          <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:14px;">
+            <sc-for list="{{ features }}" as="ft" hint-placeholder-count="6">
+              <div data-card="" style="display:flex; gap:14px; padding:18px; border-radius:18px; background:#fff; box-shadow:0 10px 24px rgba(76,130,170,.1);" style-hover="transform:translateY(-4px);">
+                <span style="flex:none; width:14px; height:14px; margin-top:5px; border-radius:50%; background:{{ ft.dot }}; box-shadow:0 0 0 4px {{ ft.glow }};"></span>
+                <div>
+                  <div style="font-weight:700; font-size:15px; color:var(--ink);">{{ ft.t }}</div>
+                  <div style="font-size:13px; color:var(--ink-soft); line-height:1.6; margin-top:3px;">{{ ft.d }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div data-reveal="">
+          <h3 style="font-family:'ZCOOL KuaiLe',cursive; font-size:24px; color:var(--ink); margin:0 0 18px;">性格 · Personality</h3>
+          <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <sc-for list="{{ traits }}" as="tr" hint-placeholder-count="6">
+              <span data-card="" style="display:inline-flex; flex-direction:column; align-items:center; gap:2px; padding:13px 20px; border-radius:16px; background:linear-gradient(180deg,#fff,#f4fbff); box-shadow:0 8px 18px rgba(76,130,170,.12);" style-hover="transform:translateY(-4px) rotate(-2deg);">
+                <span style="font-family:'ZCOOL KuaiLe',cursive; font-size:18px; color:var(--ink);">{{ tr.zh }}</span>
+                <span style="font-family:'Fredoka',sans-serif; font-size:11px; letter-spacing:1px; color:var(--sky-deep);">{{ tr.en }}</span>
+              </span>
+            </sc-for>
+          </div>
+          <div style="margin-top:24px; padding:20px 22px; border-radius:20px; background:linear-gradient(135deg,var(--sky2),#fdf2e0); box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);">
+            <div style="font-family:'ZCOOL KuaiLe',cursive; font-size:17px; color:var(--ink); line-height:1.7;">“喜欢温泉、烤红薯<br>和会发光的小事。”</div>
+            <div style="font-family:'Fredoka',sans-serif; font-size:12px; color:var(--ink-soft); margin-top:8px;">loves hot springs, sweet potatoes &amp; little glowing things.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section id="gallery" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:#fff;">
+    <div style="max-width:1240px; margin:0 auto;">
+      <div data-reveal="" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">ARTWORK · 画作</div>
+          <h2 style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink);">画师笔下的雨枫</h2>
+        </div>
+        <div style="font-size:13px; color:var(--ink-soft); max-width:300px; text-align:right;">点击任意一张放大查看 ✦<br><span style="font-family:'Fredoka',sans-serif;">tap any piece to enlarge</span></div>
+      </div>
+
+      <div data-reveal="" style="margin-top:46px; column-count:3; column-gap:18px;">
+        <sc-for list="{{ galleryFeatured }}" as="g" hint-placeholder-count="6">
+          <figure data-card-fig="" data-src="{{ g.src }}" data-cap="{{ g.cap }}" data-en="{{ g.en }}" onclick="{{ openLightbox }}" style="break-inside:avoid; margin:0 0 18px; border-radius:20px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 12px 30px rgba(76,130,170,.14); background:#eaf4fb;">
+            <img src="{{ g.src }}" alt="{{ g.cap }}" loading="lazy" style="width:100%; height:auto; display:block;">
+            <figcaption style="position:absolute; left:0; right:0; bottom:0; padding:26px 16px 14px; background:linear-gradient(transparent,rgba(28,46,64,.72)); color:#fff;">
+              <div style="font-family:'ZCOOL KuaiLe',cursive; font-size:17px;">{{ g.cap }}</div>
+              <div style="font-family:'Fredoka',sans-serif; font-size:11px; letter-spacing:1px; opacity:.85;">{{ g.en }}</div>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+      <sc-if value="{{ galleryHasMore }}">
+        <div style="text-align:center; margin-top:38px;">
+          <a href="/oc/art/" class="rp-more-btn" style="font-family:'Fredoka','Noto Sans SC',sans-serif; font-size:15px; font-weight:600; color:var(--ink); background:#fff; border:2px solid #d8ebf8; border-radius:999px; padding:13px 36px; cursor:pointer; box-shadow:0 8px 22px rgba(76,130,170,.14); display:inline-block; text-decoration:none;">{{ galleryTotalLabel }}</a>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- ===== FURSUIT ===== -->
+  <section id="fursuit" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:linear-gradient(180deg,#ffffff,#eaf6fe);">
+    <div style="max-width:1240px; margin:0 auto;">
+      <div data-reveal="" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">FURSUIT · 毛照</div>
+          <h2 style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink);">现实里的雨枫</h2>
+        </div>
+        <div style="font-size:13px; color:var(--ink-soft); max-width:320px; text-align:right;">从屏幕跳进现实的小狼龙 ✦<br><span style="font-family:'Fredoka',sans-serif;">the wolfdragon, brought to life</span></div>
+      </div>
+      <div data-reveal="" style="margin-top:46px; column-count:3; column-gap:18px;">
+        <sc-for list="{{ fursuitFeatured }}" as="p" hint-placeholder-count="6">
+          <figure data-card-fig="" data-src="{{ p.src }}" data-cap="{{ p.cap }}" data-en="{{ p.en }}" onclick="{{ openLightbox }}" style="break-inside:avoid; margin:0 0 18px; border-radius:20px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 12px 30px rgba(76,130,170,.14); background:#eaf4fb;">
+            <img src="{{ p.src }}" alt="{{ p.cap }}" loading="lazy" style="width:100%; height:auto; display:block;">
+            <figcaption style="position:absolute; left:0; right:0; bottom:0; padding:26px 16px 14px; background:linear-gradient(transparent,rgba(28,46,64,.72)); color:#fff;">
+              <div style="font-family:'ZCOOL KuaiLe',cursive; font-size:17px;">{{ p.cap }}</div>
+              <div style="font-family:'Fredoka',sans-serif; font-size:11px; letter-spacing:1px; opacity:.85;">{{ p.en }}</div>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+      <sc-if value="{{ fursuitHasMore }}">
+        <div style="text-align:center; margin-top:38px;">
+          <a href="/oc/fursuit/" class="rp-more-btn" style="font-family:'Fredoka','Noto Sans SC',sans-serif; font-size:15px; font-weight:600; color:var(--ink); background:#fff; border:2px solid #d8ebf8; border-radius:999px; padding:13px 36px; cursor:pointer; box-shadow:0 8px 22px rgba(76,130,170,.14); display:inline-block; text-decoration:none;">{{ furTotalLabel }}</a>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- ===== SOCIAL ===== -->
+  <section id="social" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:linear-gradient(180deg,#eaf6fe,#fdf6ea);">
+    <div style="max-width:1100px; margin:0 auto;">
+      <div data-reveal="" style="text-align:center;">
+        <div style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">FIND ME · 社交</div>
+        <h2 style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink);">来找雨枫玩呀</h2>
+        <p style="margin:14px auto 0; max-width:440px; font-size:14px; color:var(--ink-soft);">把链接换成你自己的主页就好啦 · replace with your own links</p>
+      </div>
+      <div data-reveal="" style="margin-top:50px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:18px;">
+        <sc-for list="{{ socials }}" as="s" hint-placeholder-count="5">
+          <a data-card="" href="{{ s.url }}" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; padding:22px 24px; border-radius:20px; position:relative; background:#fff; box-shadow:0 12px 28px rgba(76,130,170,.12); transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-6px); box-shadow:0 22px 44px rgba(76,130,170,.22);">
+            <span style="flex:none; width:48px; height:48px; border-radius:14px; background:{{ s.color }}; display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);">
+              <sc-if value="{{ s.iconSrc }}"><img src="{{ s.iconSrc }}" alt="{{ s.name }}" style="width:62%; height:62%; object-fit:contain; display:block;"></sc-if>
+              <sc-if value="{{ s.iconText }}"><span style="font-family:'ZCOOL KuaiLe',cursive; font-size:26px; line-height:1; color:{{ s.iconColor }};">{{ s.iconText }}</span></sc-if>
+            </span>
+            <span style="min-width:0;">
+              <span style="display:block; font-weight:700; font-size:15px; color:var(--ink);">{{ s.name }}</span>
+              <span style="display:block; font-family:'Fredoka',sans-serif; font-size:12px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ s.handle }}</span>
+            </span>
+            <span style="margin-left:auto; color:var(--sky-deep); font-size:18px;">→</span>
+            <sc-if value="{{ s.tag }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute; top:-11px; right:-7px; transform:rotate(8deg); padding:4px 11px; border-radius:999px; background:var(--cream); color:#7a5a1d; font-family:'ZCOOL KuaiLe',cursive; font-size:12px; box-shadow:0 5px 12px rgba(245,217,138,.55);">{{ s.tag }}</span>
+            </sc-if>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:#fff;">
+    <div style="max-width:680px; margin:0 auto; text-align:center;">
+      <div data-reveal="" style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">MESSAGE · 留言</div>
+      <h2 data-reveal="" style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink);">丢句话给我吧 ✍</h2>
+      <p data-reveal="" style="margin:14px 0 0; font-size:14px; color:var(--ink-soft);">悄悄话、夸夸、或者只是打个招呼都可以～</p>
+      <form data-reveal="" onsubmit="{{ submitMsg }}" style="margin-top:40px; text-align:left; padding:clamp(24px,4vw,40px); border-radius:28px; background:linear-gradient(180deg,#f7fcff,#eef7fe); border:1px solid #e1f0fb; box-shadow:0 24px 50px rgba(76,130,170,.14);">
+        <label style="display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px;">你的名字 · name</label>
+        <input type="text" placeholder="怎么称呼你呢？" style="width:100%; padding:14px 18px; border-radius:14px; border:1.5px solid #dcebf8; background:#fff; font-size:15px; color:var(--ink); outline:none; transition:border-color .2s;" style-focus="border-color:var(--sky-deep);">
+        <label style="display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin:20px 0 8px;">留言 · message</label>
+        <textarea rows="4" placeholder="想对雨枫说的话…" style="width:100%; padding:14px 18px; border-radius:14px; border:1.5px solid #dcebf8; background:#fff; font-size:15px; color:var(--ink); outline:none; resize:vertical; transition:border-color .2s;" style-focus="border-color:var(--sky-deep);"></textarea>
+        <button type="submit" style="margin-top:22px; width:100%; padding:16px; border:none; border-radius:14px; background:var(--accent); color:#fff; font-size:16px; font-weight:700; cursor:pointer; box-shadow:0 12px 26px rgba(243,128,90,.4); transition:transform .2s, box-shadow .2s;" style-hover="transform:translateY(-3px); box-shadow:0 18px 34px rgba(243,128,90,.5);">送出 ✦ send</button>
+        <sc-if value="{{ msgSent }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:18px; text-align:center; font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:var(--coral);">收到啦，谢谢你～ ♥</div>
+        </sc-if>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="position:relative; padding:clamp(50px,7vw,80px) clamp(20px,5vw,64px) 44px; background:var(--ink); color:#cfe0ee; overflow:hidden;">
+    <div style="position:absolute; top:-40px; right:6%; font-family:'ZCOOL KuaiLe',cursive; font-size:120px; color:rgba(169,217,245,.08); pointer-events:none;">雨枫</div>
+    <div style="position:relative; max-width:1180px; margin:0 auto; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between;">
+      <div>
+        <div style="display:flex; align-items:baseline; gap:10px;">
+          <span style="font-family:'ZCOOL KuaiLe',cursive; font-size:28px; color:#fff;">雨枫</span>
+          <span style="font-family:'Fredoka',sans-serif; font-weight:600; letter-spacing:2px; color:var(--sky);">rainple</span>
+        </div>
+        <p style="margin:10px 0 0; font-size:13px; color:#9fb6c9; max-width:360px; line-height:1.7;">一只住在云与温泉之间的小狼龙 · a little wolfdragon between clouds &amp; warm springs.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; font-size:13px;">
+        <a href="#about" style="color:#cfe0ee;" style-hover="color:#fff;">关于</a>
+        <a href="#design" style="color:#cfe0ee;" style-hover="color:#fff;">设定</a>
+        <a href="#gallery" style="color:#cfe0ee;" style-hover="color:#fff;">画作</a>
+        <a href="#fursuit" style="color:#cfe0ee;" style-hover="color:#fff;">毛照</a>
+        <a href="#social" style="color:#cfe0ee;" style-hover="color:#fff;">社交</a>
+      </div>
+    </div>
+    <div style="position:relative; max-width:1180px; margin:34px auto 0; padding-top:22px; border-top:1px solid rgba(255,255,255,.1); display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; font-size:12px; color:#8ba2b5;">
+      <span>© {{ year }} 雨枫 rainple · all art belongs to its creator</span>
+      <span style="font-family:'Fredoka',sans-serif;">made with ♥ &amp; a little lightning</span>
+    </div>
+  </footer>
+
+  <!-- ===== LIGHTBOX ===== -->
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ closeLightbox }}" style="position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; padding:5vh 4vw; background:rgba(28,46,64,.82); backdrop-filter:blur(8px); cursor:zoom-out; animation:twinkleP .01s;">
+      <div style="position:relative; max-width:90vw; max-height:90vh; display:flex; flex-direction:column; align-items:center;">
+        <img id="rp-lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="{{ lightboxCap }}" style="max-width:90vw; max-height:80vh; object-fit:contain; border-radius:18px; box-shadow:0 30px 80px rgba(0,0,0,.5); border:5px solid rgba(255,255,255,.9);">
+        <div style="margin-top:16px; text-align:center; color:#fff;">
+          <div style="font-family:'ZCOOL KuaiLe',cursive; font-size:20px;">{{ lightboxCap }}</div>
+          <div style="font-family:'Fredoka',sans-serif; font-size:12px; letter-spacing:1px; opacity:.8;">{{ lightboxEn }}</div>
+        </div>
+      </div>
+      <button onclick="{{ closeLightbox }}" style="position:fixed; top:24px; right:28px; width:46px; height:46px; border:none; border-radius:50%; background:rgba(255,255,255,.9); color:var(--ink); font-size:22px; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,.3);">✕</button>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:820},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;晴空&quot;,&quot;暮色&quot;,&quot;竹林&quot;],&quot;default&quot;:&quot;晴空&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;particleStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;星屑&quot;,&quot;雪花&quot;,&quot;气泡&quot;],&quot;default&quot;:&quot;星屑&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showParticles&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { lightboxOpen:false, lightboxSrc:'', lightboxCap:'', lightboxEn:'', msgSent:false };
+
+  renderVals(){
+    const D=(typeof window!=='undefined'&&window.__OC_DATA)||{};
+    const gF=(D.gallery&&D.gallery.featured)||[], gM=(D.gallery&&D.gallery.more)||[];
+    const fF=(D.fursuit&&D.fursuit.featured)||[], fM=(D.fursuit&&D.fursuit.more)||[];
+    return {
+      year: new Date().getFullYear(),
+      facts: [
+        { k:'中文名 · Name', v:'雨枫' },
+        { k:'英文名 · Latin', v:'rainple' },
+        { k:'物种 · Species', v:'狼龙 Wolfdragon' },
+        { k:'配色 · Palette', v:'天蓝·雪白·奶黄' },
+        { k:'生日 · Birthday', v:'✎ 点击编辑' },
+        { k:'喜欢 · Likes', v:'温泉 · 烤红薯' },
+      ],
+      palette: [
+        { name:'天蓝 Sky', hex:'#A9D9F5', use:'主体绒毛 / fur' },
+        { name:'雪白 Snow', hex:'#FFFFFF', use:'胸口与尾尖 / chest & tips' },
+        { name:'奶黄 Cream', hex:'#F5D98A', use:'龙角与肉垫 / horns & paws' },
+        { name:'腮红 Coral', hex:'#F3805A', use:'脸颊与点缀 / blush & accent' },
+      ],
+      features: [
+        { t:'奶黄龙角', d:'额前两对小巧的龙角，奶黄渐变。', dot:'#F5D98A', glow:'rgba(245,217,138,.3)' },
+        { t:'闪电耳纹', d:'耳侧一道金色闪电，情绪激动时会亮。', dot:'#F0C152', glow:'rgba(240,193,82,.3)' },
+        { t:'蓬松多尾', d:'数条柔软的尾巴，尾尖渐变成蓝白。', dot:'#A9D9F5', glow:'rgba(169,217,245,.35)' },
+        { t:'奶黄肉垫', d:'胖乎乎的爪垫，奶黄色软糯触感。', dot:'#FBE6BD', glow:'rgba(251,230,189,.4)' },
+        { t:'漩涡纹路', d:'四肢与身侧的奶黄漩涡花纹。', dot:'#EFD08A', glow:'rgba(239,208,138,.3)' },
+        { t:'珊瑚腮红', d:'圆圆的脸颊两团珊瑚色腮红。', dot:'#F3805A', glow:'rgba(243,128,90,.28)' },
+      ],
+      traits: [
+        { zh:'软萌', en:'SOFT' },
+        { zh:'好奇', en:'CURIOUS' },
+        { zh:'温柔', en:'GENTLE' },
+        { zh:'嘴馋', en:'FOODIE' },
+        { zh:'爱泡澡', en:'BATH LOVER' },
+        { zh:'黏人', en:'CLINGY' },
+      ],
+      galleryFeatured: gF, galleryMore: gM, galleryHasMore: gM.length>0,
+      galleryTotalLabel: '查看全部 '+(gF.length+gM.length)+' 项 →',
+      fursuitFeatured: fF, fursuitMore: fM, fursuitHasMore: fM.length>0,
+      furTotalLabel: '查看全部 '+(fF.length+fM.length)+' 项 →',
+      socials: [
+        { name:'Bilibili', handle:'@雨枫rainple', url:'https://space.bilibili.com/3494354408704722', color:'#FB7299', iconSrc:'/oc/icons/bilibili.svg' },
+        { name:'QQ', handle:'@雨枫rainple', url:'#', color:'#EAF3FF', iconSrc:'/oc/icons/qq.svg' },
+        { name:'兽频道', handle:'fursuit.tv', url:'https://fursuit.tv/@juyanlanfeng', color:'#111111', iconText:'兽', iconColor:'#F5C846' },
+        { name:'GitHub', handle:'@juyanlanfeng', url:'https://github.com/juyanlanfeng', color:'#181717', iconSrc:'/oc/icons/github.svg', tag:'龙会敲代码嗷~' },
+        { name:'X', handle:'@保密', url:'https://www.bilibili.com/video/BV1GJ411x7h7/?spm_id_from=333.337.search-card.all.click&vd_source=4d62d1db2ffbd015fc2cf4d93ff88074', color:'#000000', iconSrc:'/oc/icons/x.svg' },
+      ],
+      lightboxOpen: this.state.lightboxOpen,
+      lightboxSrc: this.state.lightboxSrc,
+      lightboxCap: this.state.lightboxCap,
+      lightboxEn: this.state.lightboxEn,
+      msgSent: this.state.msgSent,
+      openLightbox: (e)=>{ const el=e.currentTarget; this.setState({ lightboxOpen:true, lightboxSrc:el.dataset.src, lightboxCap:el.dataset.cap, lightboxEn:el.dataset.en }); document.body.style.overflow='hidden'; },
+      closeLightbox: (e)=>{ if(e){ e.stopPropagation(); } this.setState({ lightboxOpen:false }); document.body.style.overflow=''; },
+      submitMsg: (e)=>{ e.preventDefault(); this.setState({ msgSent:true }); e.target.reset && e.target.reset(); clearTimeout(this._mt); this._mt=setTimeout(()=>this.setState({ msgSent:false }), 4000); },
+    };
+  }
+
+  componentDidMount(){
+    this.applyTheme();
+    this.buildParticles();
+    this.initReveal();
+    this.initCardReveal();
+    this.initNav();
+    this.initParallax();
+    this._key = (e)=>{ if(e.key==='Escape' && this.state.lightboxOpen){ this.setState({lightboxOpen:false}); document.body.style.overflow=''; } };
+    window.addEventListener('keydown', this._key);
+    this._trail = (e)=>{ const now=Date.now(); if(now-(this._tl||0)<55) return; this._tl=now; const s=document.createElement('div'); s.textContent= Math.random()>.72 ? '✿' : '✦'; s.style.cssText='position:fixed; left:'+e.clientX+'px; top:'+e.clientY+'px; z-index:300; pointer-events:none; transform:translate(-50%,-50%); font-size:'+(10+Math.random()*10)+'px; color:'+(Math.random()>.5?'#f5d98a':'#7fc6f0')+'; text-shadow:0 0 6px rgba(255,255,255,.7);'; s.style.animation='pawFade .9s ease-out forwards'; document.body.appendChild(s); setTimeout(()=>s.remove(),900); };
+    window.addEventListener('pointermove', this._trail, { passive:true });
+  }
+  componentDidUpdate(prev){
+    if(prev.particleStyle!==this.props.particleStyle || prev.showParticles!==this.props.showParticles){ this.buildParticles(); }
+    if(prev.theme!==this.props.theme){ this.applyTheme(); }
+    if(this.state.lightboxOpen && this.state.lightboxSrc){
+      const im=document.getElementById('rp-lightbox-img');
+      if(im && im.getAttribute('src')!==this.state.lightboxSrc){ im.src=this.state.lightboxSrc; }
+    }
+  }
+  componentWillUnmount(){
+    window.removeEventListener('keydown', this._key);
+    window.removeEventListener('pointermove', this._trail);
+    window.removeEventListener('scroll', this._scroll);
+    window.removeEventListener('scroll', this._revealScroll);
+    window.removeEventListener('scroll', this._navScroll);
+    window.removeEventListener('scroll', this._cardScroll);
+    this._io && this._io.disconnect();
+    this._cio && this._cio.disconnect();
+  }
+
+  root(){ return document.getElementById('rainple-root'); }
+
+  applyTheme(){
+    const r=this.root(); if(!r) return;
+    const t=this.props.theme || '晴空';
+    const themes={
+      '晴空':{ grad:'linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%)', accent:'#f3805a', deep:'#6fb8e8' },
+      '暮色':{ grad:'linear-gradient(165deg,#dfe1fb 0%,#f1e6f6 45%,#fce3da 100%)', accent:'#e98aa8', deep:'#9a8fd6' },
+      '竹林':{ grad:'linear-gradient(165deg,#d6efe0 0%,#eaf7ee 45%,#fdf6df 100%)', accent:'#5fae7a', deep:'#5aa6c0' },
+    };
+    const c=themes[t]||themes['晴空'];
+    r.style.setProperty('--hero-grad', c.grad);
+    r.style.setProperty('--accent', c.accent);
+    r.style.setProperty('--sky-deep', c.deep);
+  }
+
+  buildParticles(){
+    const layer = this.root() && this.root().querySelector('#particle-layer');
+    if(!layer) return;
+    layer.innerHTML='';
+    if(this.props.showParticles===false) return;
+    const style = this.props.particleStyle || '星屑';
+    const n = 26;
+    for(let i=0;i<n;i++){
+      const d=document.createElement('div');
+      const left=Math.random()*100;
+      const size=4+Math.random()*9;
+      const dur=9+Math.random()*14;
+      const delay=-Math.random()*dur;
+      d.style.position='absolute';
+      d.style.left=left+'%';
+      d.style.pointerEvents='none';
+      if(style==='雪花'){
+        d.style.top='-5%';
+        d.style.width=size+'px'; d.style.height=size+'px';
+        d.style.borderRadius='50%';
+        d.style.background='rgba(255,255,255,.9)';
+        d.style.boxShadow='0 0 6px rgba(255,255,255,.7)';
+        d.style.opacity=String(.5+Math.random()*.5);
+        d.style.animation=`fallP ${dur}s linear ${delay}s infinite`;
+      } else if(style==='气泡'){
+        d.style.bottom='-5%';
+        d.style.width=size*1.4+'px'; d.style.height=size*1.4+'px';
+        d.style.borderRadius='50%';
+        d.style.background='radial-gradient(circle at 35% 30%, rgba(255,255,255,.9), rgba(169,217,245,.35) 70%, transparent)';
+        d.style.border='1px solid rgba(255,255,255,.5)';
+        d.style.opacity=String(.4+Math.random()*.4);
+        d.style.animation=`riseP ${dur}s linear ${delay}s infinite`;
+      } else { // 星屑
+        d.style.top=Math.random()*100+'%';
+        d.style.color= Math.random()>.5 ? '#f5d98a' : '#ffffff';
+        d.style.fontSize=(size+4)+'px';
+        d.style.textShadow='0 0 8px rgba(245,217,138,.8)';
+        d.textContent='✦';
+        d.style.animation=`twinkleP ${2+Math.random()*3}s ease-in-out ${delay}s infinite`;
+      }
+      layer.appendChild(d);
+    }
+  }
+
+  initReveal(){
+    const els = this.root().querySelectorAll('[data-reveal]');
+    els.forEach((el,i)=>{ el.style.opacity='0'; el.style.transform='translateY(64px) scale(.94)'; el.style.transition='opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1)'; el.dataset._d=(i%4)*90; });
+    const reveal=(el)=>{ if(el.dataset._shown) return; el.dataset._shown='1'; setTimeout(()=>{ el.style.opacity='1'; el.style.transform=''; }, (el.dataset._d|0)); };
+    // Reveal only what's already within the viewport on load.
+    const checkInView=()=>{
+      const h=window.innerHeight||800;
+      els.forEach(el=>{ const r=el.getBoundingClientRect(); if(r.top < h*0.88 && r.bottom > 0){ reveal(el); } });
+    };
+    checkInView();
+    // IntersectionObserver triggers the rest as they scroll into view.
+    try{
+      this._io = new IntersectionObserver((entries)=>{
+        entries.forEach((en)=>{ if(en.isIntersecting){ reveal(en.target); this._io.unobserve(en.target); } });
+      }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+      els.forEach(el=>{ if(!el.dataset._shown) this._io.observe(el); });
+    }catch(e){}
+    this._revealScroll=checkInView; window.addEventListener('scroll', checkInView, { passive:true });
+  }
+
+  initCardReveal(){
+    const root = this.root(); if(!root) return;
+    const cards = [...root.querySelectorAll('[data-card], [data-card-fig]')];
+    if(!cards.length) return;
+    // Group by parent so stagger resets per section
+    const groups = new Map();
+    cards.forEach(el=>{
+      const p = el.parentElement;
+      if(!groups.has(p)) groups.set(p, []);
+      groups.get(p).push(el);
+    });
+    groups.forEach(list => list.forEach((el,i)=>{ el.dataset._cidx = String(i); }));
+    // Initial hidden state
+    cards.forEach(el=>{
+      const isFig = el.hasAttribute('data-card-fig');
+      if(isFig){
+        el.style.opacity = '0';
+        el.style.filter = 'blur(14px)';
+        el.style.transform = 'translateY(70px) scale(.9)';
+      } else {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(72px) scale(.92)';
+        el.style.transition = 'opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), box-shadow .25s ease';
+      }
+    });
+    const reveal = (el)=>{
+      if(el.dataset._cshown) return;
+      el.dataset._cshown = '1';
+      const idx = parseInt(el.dataset._cidx||'0', 10);
+      const isFig = el.hasAttribute('data-card-fig');
+      setTimeout(()=>{
+        el.style.opacity = '1';
+        if(isFig){ el.style.filter = 'none'; }
+        el.style.transform = '';
+      }, Math.min(idx, 9) * 90);
+    };
+    const checkInView = ()=>{
+      const h = window.innerHeight||800;
+      cards.forEach(el=>{
+        if(el.dataset._cshown) return;
+        const r = el.getBoundingClientRect();
+        // only reveal cards already within the viewport (above-the-fold on load)
+        if(r.top < h*0.88 && r.bottom > 0) reveal(el);
+      });
+    };
+    checkInView();
+    try{
+      this._cio = new IntersectionObserver((ents)=>{
+        ents.forEach(en=>{ if(en.isIntersecting){ reveal(en.target); this._cio.unobserve(en.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      cards.forEach(el=>{ if(!el.dataset._cshown) this._cio.observe(el); });
+    }catch(e){}
+    this._cardScroll = checkInView;
+    window.addEventListener('scroll', checkInView, { passive:true });
+  }
+
+  initNav(){
+    const nav=document.getElementById('rp-nav'); if(!nav) return;
+    const onScroll=()=>{
+      if(window.scrollY>40){ nav.style.background='rgba(255,255,255,.82)'; nav.style.backdropFilter='blur(12px)'; nav.style.boxShadow='0 6px 24px rgba(76,130,170,.12)'; nav.style.padding='10px clamp(20px,5vw,64px)'; }
+      else { nav.style.background='transparent'; nav.style.backdropFilter='none'; nav.style.boxShadow='none'; nav.style.padding='16px clamp(20px,5vw,64px)'; }
+    };
+    this._navScroll=onScroll; window.addEventListener('scroll', onScroll); onScroll();
+  }
+
+  initParallax(){
+    const img=this.root().querySelector('#rp-hero-img');
+    const b1=document.getElementById('rp-blob1');
+    const b2=document.getElementById('rp-blob2');
+    const onScroll=()=>{
+      const y=window.scrollY;
+      if(y>window.innerHeight) return;
+      if(b1) b1.style.marginTop=`${y*0.12}px`;
+      if(b2) b2.style.marginTop=`${-y*0.06}px`;
+    };
+    this._scroll=onScroll; window.addEventListener('scroll', onScroll);
+  }
+}
+</script>
+
+</body>
+</html>

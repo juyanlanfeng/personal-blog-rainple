@@ -1,0 +1,51 @@
+---
+// OC 展示页（雨枫 rainple）。
+//
+// 图片「文件夹驱动」：构建/启动时读取 public/oc 下的四个文件夹，
+// 自动生成画廊数据并注入页面，无需改任何代码。你只要管理文件夹里的图片即可：
+//
+//   public/oc/art/featured/      画作 · 直接展示在页面上
+//   public/oc/art/more/          画作 · 折叠在「查看更多」里
+//   public/oc/fursuit/featured/  毛照 · 直接展示
+//   public/oc/fursuit/more/      毛照 · 折叠在「查看更多」里
+//
+// 文件名即标题。推荐命名： 序号_中文_English.jpg
+//   例： 01_竹林温泉_Bamboo hot spring.jpg
+//   - 序号（01、02…）只用来排序，不会显示
+//   - 第一个下划线前是中文标题，后面是英文小字
+//   - 只写 中文.jpg 也可以，英文小字留空
+//
+// 技术说明：整页通过 ?raw 注入（set:html），避免 Astro 解析其中的 {{ }} 模板，
+// 也避开 fuwari 的全捕获分页路由 [...page].astro。dc-runtime.js 与图片由 public/oc/ 静态提供。
+import { getCategory } from "../../utils/oc-gallery";
+import rawHtml from "./_page.html?raw";
+
+const art = getCategory("art");
+const fursuit = getCategory("fursuit");
+
+// 主页精选区只放图片（dc 模板用 <img> 渲染）；视频与其余媒体在 /oc/art/、/oc/fursuit/ 整页相册里展示。
+// more 仅用于统计「查看全部 N」的总数和是否显示按钮 = 全部媒体 − 已展示精选。
+function mainData(cat) {
+	const shown = cat.featured.filter((x) => x.type === "image");
+	const shownSrc = new Set(shown.map((s) => s.src));
+	const hidden = cat.all.filter((x) => !shownSrc.has(x.src));
+	return { featured: shown, more: hidden };
+}
+
+const ocData = {
+	gallery: mainData(art),
+	fursuit: mainData(fursuit),
+};
+
+// 把数据作为内联脚本注入 head，供 dc-runtime 在引导前读取。
+// 注意：用拆分的 "scr"+"ipt" 拼接标签，避免 Astro 编译器把这段源码里的脚本标签当成真实脚本去解析。
+const json = JSON.stringify(ocData).replace(/</g, "\\u003c");
+const openTag = `<scr${"ipt"}>`;
+const closeTag = `</scr${"ipt"}>`;
+const html = rawHtml.replace(
+	"</head>",
+	`${openTag}window.__OC_DATA=${json};${closeTag}</head>`,
+);
+---
+
+<Fragment set:html={html} />

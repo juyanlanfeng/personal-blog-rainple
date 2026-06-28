@@ -32,3 +32,8 @@ yarn.lock
 
 # Claude Code local tooling
 .claude/
+
+# pictures
+art/
+assets/
+fursuit/

@@ -1,0 +1,535 @@
+---
+// OC 相册整页（画作 / 毛照 共用）。原生 Astro 渲染，风格与 /oc/ 主页一致。
+import type { OcItem } from "../../utils/oc-gallery";
+
+interface Props {
+	kicker: string; // 顶部小标题，例： ARTWORK · 画作
+	heading: string; // 中文大标题
+	subtitle?: string; // 右侧说明
+	items: OcItem[];
+}
+
+const { kicker, heading, subtitle = "", items } = Astro.props as Props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{heading} · 雨枫 rainple</title>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap"
+		/>
+		<style is:inline>
+			:root {
+				--ink: #28435c;
+				--ink-soft: #6a8aa3;
+				--sky: #a9d9f5;
+				--sky-deep: #6fb8e8;
+				--cream: #f5d98a;
+				--accent: #f3805a;
+			}
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				font-family: "Noto Sans SC", -apple-system, sans-serif;
+				color: var(--ink);
+				background: linear-gradient(165deg, #cdeafb 0%, #e9f5fe 42%, #fdf2e0 100%);
+				background-attachment: fixed;
+				min-height: 100vh;
+			}
+			a {
+				color: inherit;
+			}
+			.gp-nav {
+				position: sticky;
+				top: 0;
+				z-index: 20;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+				padding: 16px clamp(20px, 5vw, 64px);
+				background: rgba(255, 255, 255, 0.82);
+				backdrop-filter: blur(12px);
+				box-shadow: 0 6px 24px rgba(76, 130, 170, 0.12);
+			}
+			.gp-logo {
+				font-family: "ZCOOL KuaiLe", cursive;
+				font-size: 24px;
+				color: var(--ink);
+				text-decoration: none;
+			}
+			.gp-logo span {
+				font-family: "Fredoka", sans-serif;
+				font-size: 15px;
+				color: var(--sky-deep);
+				margin-left: 6px;
+			}
+			.gp-back {
+				font-family: "Fredoka", "Noto Sans SC", sans-serif;
+				font-size: 14px;
+				font-weight: 600;
+				text-decoration: none;
+				color: var(--ink);
+				background: #fff;
+				border: 2px solid #d8ebf8;
+				border-radius: 999px;
+				padding: 9px 22px;
+				transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease,
+					border-color 0.2s ease;
+			}
+			.gp-back:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 10px 24px rgba(76, 130, 170, 0.2);
+				color: var(--accent);
+				border-color: var(--accent);
+			}
+			.gp-wrap {
+				max-width: 1240px;
+				margin: 0 auto;
+				padding: clamp(48px, 7vw, 96px) clamp(20px, 5vw, 64px)
+					clamp(80px, 10vw, 140px);
+			}
+			.gp-head {
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-between;
+				gap: 20px;
+				flex-wrap: wrap;
+			}
+			.gp-kicker {
+				font-family: "Fredoka", sans-serif;
+				font-size: 13px;
+				font-weight: 600;
+				letter-spacing: 4px;
+				color: var(--accent);
+			}
+			.gp-title {
+				margin-top: 14px;
+				font-family: "ZCOOL KuaiLe", cursive;
+				font-size: clamp(34px, 5vw, 58px);
+				color: var(--ink);
+			}
+			.gp-sub {
+				font-size: 13px;
+				color: var(--ink-soft);
+				max-width: 320px;
+				text-align: right;
+			}
+			.gp-sub .en {
+				font-family: "Fredoka", sans-serif;
+			}
+			.gp-grid {
+				margin-top: 46px;
+				column-count: 3;
+				column-gap: 18px;
+			}
+			@media (max-width: 900px) {
+				.gp-grid {
+					column-count: 2;
+				}
+			}
+			@media (max-width: 560px) {
+				.gp-grid {
+					column-count: 1;
+				}
+			}
+			.gp-fig {
+				break-inside: avoid;
+				margin: 0 0 18px;
+				border-radius: 20px;
+				overflow: hidden;
+				position: relative;
+				cursor: pointer;
+				background: #eaf4fb;
+				box-shadow: 0 12px 30px rgba(76, 130, 170, 0.14);
+				transition: transform 0.25s ease, box-shadow 0.25s ease;
+			}
+			.gp-fig:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 18px 38px rgba(76, 130, 170, 0.22);
+			}
+			.gp-fig img,
+			.gp-fig video {
+				width: 100%;
+				height: auto;
+				display: block;
+				opacity: 0;
+				transition: opacity 0.6s ease;
+			}
+			.gp-fig.loaded img,
+			.gp-fig.loaded video {
+				opacity: 1;
+			}
+			/* 未加载时的骨架微光占位 */
+			.gp-fig.loading {
+				min-height: 220px;
+				background: linear-gradient(
+					100deg,
+					#e6f1fa 25%,
+					#f4fafe 45%,
+					#e6f1fa 65%
+				);
+				background-size: 200% 100%;
+				animation: gpShimmer 1.4s linear infinite;
+			}
+			.gp-fig.loading .gp-cap,
+			.gp-fig.loading .gp-badge,
+			.gp-fig.loading .gp-play {
+				opacity: 0;
+			}
+			@keyframes gpShimmer {
+				0% {
+					background-position: 200% 0;
+				}
+				100% {
+					background-position: -200% 0;
+				}
+			}
+			/* 入场加载页 */
+			.gp-loader {
+				position: fixed;
+				inset: 0;
+				z-index: 200;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 18px;
+				background: linear-gradient(165deg, #cdeafb, #e9f5fe 42%, #fdf2e0);
+				transition: opacity 0.6s ease, visibility 0.6s ease;
+			}
+			.gp-loader.hide {
+				opacity: 0;
+				visibility: hidden;
+			}
+			.gp-loader-logo {
+				font-family: "ZCOOL KuaiLe", cursive;
+				font-size: 34px;
+				color: var(--ink);
+			}
+			.gp-loader-logo span {
+				font-family: "Fredoka", sans-serif;
+				font-size: 18px;
+				color: var(--sky-deep);
+				margin-left: 6px;
+			}
+			.gp-spinner {
+				width: 42px;
+				height: 42px;
+				border-radius: 999px;
+				border: 4px solid rgba(111, 184, 232, 0.3);
+				border-top-color: var(--sky-deep);
+				animation: gpSpin 0.8s linear infinite;
+			}
+			@keyframes gpSpin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+			.gp-loader-text {
+				font-family: "Fredoka", "Noto Sans SC", sans-serif;
+				font-size: 13px;
+				color: var(--ink-soft);
+				letter-spacing: 1px;
+			}
+			.gp-play {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 58px;
+				height: 58px;
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.85);
+				color: var(--accent);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 22px;
+				padding-left: 4px;
+				box-shadow: 0 6px 18px rgba(28, 46, 64, 0.3);
+				pointer-events: none;
+			}
+			.gp-badge {
+				position: absolute;
+				top: 12px;
+				left: 12px;
+				font-family: "Fredoka", sans-serif;
+				font-size: 11px;
+				font-weight: 600;
+				letter-spacing: 1px;
+				color: #fff;
+				background: rgba(28, 46, 64, 0.55);
+				border-radius: 999px;
+				padding: 3px 10px;
+				pointer-events: none;
+			}
+			.gp-cap {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				padding: 28px 16px 14px;
+				background: linear-gradient(transparent, rgba(28, 46, 64, 0.72));
+				color: #fff;
+			}
+			.gp-cap .zh {
+				font-family: "ZCOOL KuaiLe", cursive;
+				font-size: 17px;
+			}
+			.gp-cap .en {
+				font-family: "Fredoka", sans-serif;
+				font-size: 11px;
+				letter-spacing: 1px;
+				opacity: 0.85;
+			}
+			.gp-empty {
+				margin-top: 46px;
+				padding: 64px 20px;
+				text-align: center;
+				color: var(--ink-soft);
+				background: rgba(255, 255, 255, 0.6);
+				border: 2px dashed #cfe6f6;
+				border-radius: 24px;
+			}
+			/* lightbox */
+			.gp-lb {
+				position: fixed;
+				inset: 0;
+				z-index: 100;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				padding: 24px;
+				background: rgba(20, 36, 50, 0.82);
+				backdrop-filter: blur(6px);
+			}
+			.gp-lb.open {
+				display: flex;
+			}
+			.gp-lb-inner {
+				max-width: 92vw;
+				max-height: 88vh;
+				text-align: center;
+			}
+			.gp-lb-inner img,
+			.gp-lb-inner video {
+				max-width: 92vw;
+				max-height: 78vh;
+				width: auto;
+				height: auto;
+				border-radius: 16px;
+				box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+				background: #000;
+			}
+			.gp-lb-cap {
+				margin-top: 14px;
+				color: #fff;
+			}
+			.gp-lb-cap .zh {
+				font-family: "ZCOOL KuaiLe", cursive;
+				font-size: 20px;
+			}
+			.gp-lb-cap .en {
+				font-family: "Fredoka", sans-serif;
+				font-size: 12px;
+				opacity: 0.8;
+			}
+			.gp-lb-close {
+				position: fixed;
+				top: 20px;
+				right: 24px;
+				width: 44px;
+				height: 44px;
+				border-radius: 999px;
+				border: none;
+				cursor: pointer;
+				background: rgba(255, 255, 255, 0.9);
+				color: var(--ink);
+				font-size: 22px;
+				line-height: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="gp-loader" id="gp-loader">
+			<div class="gp-loader-logo">雨枫<span>rainple</span></div>
+			<div class="gp-spinner"></div>
+			<div class="gp-loader-text">正在加载相册…</div>
+		</div>
+
+		<nav class="gp-nav">
+			<a class="gp-logo" href="/oc/">雨枫<span>rainple</span></a>
+			<div style="display:flex; gap:10px; align-items:center;">
+				<a class="gp-back" href="/">前往博客 →</a>
+				<a class="gp-back" href="/oc/">← 返回主页</a>
+			</div>
+		</nav>
+
+		<div class="gp-wrap">
+			<div class="gp-head">
+				<div>
+					<div class="gp-kicker">{kicker}</div>
+					<h1 class="gp-title">{heading}</h1>
+				</div>
+				{
+					subtitle && (
+						<div class="gp-sub" set:html={subtitle} />
+					)
+				}
+			</div>
+
+			{
+				items.length === 0 ? (
+					<div class="gp-empty">
+						这里还没有图片～把图片放进对应文件夹即可显示。
+					</div>
+				) : (
+					<div class="gp-grid">
+						{items.map((it) => (
+							<figure
+								class="gp-fig loading"
+								data-src={it.src}
+								data-cap={it.cap}
+								data-en={it.en}
+								data-type={it.type}
+							>
+								{it.type === "video" ? (
+									<>
+										<video
+											src={`${it.src}#t=0.1`}
+											preload="metadata"
+											muted
+											playsinline
+										/>
+										<span class="gp-badge">VIDEO</span>
+										<span class="gp-play">▶</span>
+									</>
+								) : (
+									<img src={it.src} alt={it.cap} loading="lazy" />
+								)}
+								{(it.cap || it.en) && (
+									<figcaption class="gp-cap">
+										<div class="zh">{it.cap}</div>
+										{it.en && <div class="en">{it.en}</div>}
+									</figcaption>
+								)}
+							</figure>
+						))}
+					</div>
+				)
+			}
+		</div>
+
+		<div class="gp-lb" id="gp-lb">
+			<button class="gp-lb-close" id="gp-lb-close" aria-label="关闭">×</button>
+			<div class="gp-lb-inner">
+				<img id="gp-lb-img" src="" alt="" />
+				<video
+					id="gp-lb-video"
+					src=""
+					controls
+					playsinline
+					style="display:none"></video>
+				<div class="gp-lb-cap">
+					<div class="zh" id="gp-lb-zh"></div>
+					<div class="en" id="gp-lb-en"></div>
+				</div>
+			</div>
+		</div>
+
+		<script is:inline>
+			(function () {
+				const lb = document.getElementById("gp-lb");
+				const img = document.getElementById("gp-lb-img");
+				const vid = document.getElementById("gp-lb-video");
+				const zh = document.getElementById("gp-lb-zh");
+				const en = document.getElementById("gp-lb-en");
+				function open(fig) {
+					const src = fig.getAttribute("data-src");
+					if (fig.getAttribute("data-type") === "video") {
+						img.style.display = "none";
+						vid.style.display = "";
+						vid.src = src;
+						vid.play().catch(function () {});
+					} else {
+						vid.pause();
+						vid.removeAttribute("src");
+						vid.style.display = "none";
+						img.style.display = "";
+						img.src = src;
+					}
+					zh.textContent = fig.getAttribute("data-cap") || "";
+					en.textContent = fig.getAttribute("data-en") || "";
+					lb.classList.add("open");
+					document.body.style.overflow = "hidden";
+				}
+				function close() {
+					lb.classList.remove("open");
+					vid.pause();
+					document.body.style.overflow = "";
+				}
+				document.querySelectorAll(".gp-fig").forEach(function (f) {
+					f.addEventListener("click", function () {
+						open(f);
+					});
+					// 媒体加载完成后移除骨架、淡入
+					const m = f.querySelector("img, video");
+					if (!m) {
+						f.classList.remove("loading");
+						f.classList.add("loaded");
+						return;
+					}
+					const done = function () {
+						f.classList.remove("loading");
+						f.classList.add("loaded");
+					};
+					const fail = function () {
+						f.classList.remove("loading");
+					};
+					if (m.tagName === "IMG") {
+						if (m.complete && m.naturalWidth) done();
+						else {
+							m.addEventListener("load", done);
+							m.addEventListener("error", fail);
+						}
+					} else {
+						// 视频：metadata 就绪即可移除骨架（preload=metadata 下 loadeddata 未必触发）
+						if (m.readyState >= 1) done();
+						else {
+							m.addEventListener("loadedmetadata", done);
+							m.addEventListener("loadeddata", done);
+							m.addEventListener("error", fail);
+						}
+					}
+				});
+				document
+					.getElementById("gp-lb-close")
+					.addEventListener("click", close);
+				lb.addEventListener("click", function (e) {
+					if (e.target === lb) close();
+				});
+				window.addEventListener("keydown", function (e) {
+					if (e.key === "Escape") close();
+				});
+
+				// 入场加载页：首屏资源就绪或最多 2.5s 后淡出（避免大相册长时间卡住）
+				const loader = document.getElementById("gp-loader");
+				function hideLoader() {
+					if (loader) loader.classList.add("hide");
+				}
+				if (document.readyState === "complete") hideLoader();
+				else window.addEventListener("load", hideLoader);
+				setTimeout(hideLoader, 2500);
+			})();
+		</script>
+	</body>
+</html>
