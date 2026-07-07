@@ -156,6 +156,25 @@ const bannerOffset =
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
+
+		<!-- 图片保护：禁右键、禁拖拽（水印由 scripts/watermark.js 在构建时添加） -->
+		<style is:global>
+			img,
+			video {
+				-webkit-user-drag: none;
+				-webkit-touch-callout: none;
+			}
+		</style>
+		<script is:inline>
+			document.addEventListener("contextmenu", (e) => {
+				if (e.target.closest && e.target.closest("img, video, .pswp"))
+					e.preventDefault();
+			});
+			document.addEventListener("dragstart", (e) => {
+				if (e.target.closest && e.target.closest("img, video"))
+					e.preventDefault();
+			});
+		</script>
 	</body>
 </html>
 

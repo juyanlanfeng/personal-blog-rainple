@@ -20,6 +20,6 @@
   },
   "frontMatter.dashboard.openOnStart": false,
   "files.associations": {
-    "**/_page.html": "plaintext"
+    "**/_page.html": "html"
   }
 }

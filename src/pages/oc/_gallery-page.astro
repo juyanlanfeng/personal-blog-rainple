@@ -357,6 +357,25 @@ const { kicker, heading, subtitle = "", items } = Astro.props as Props;
 				font-size: 22px;
 				line-height: 1;
 			}
+			/* 图片保护：媒体不响应鼠标（右键/拖拽落不到图上），卡片再盖一层透明遮罩 */
+			img,
+			video {
+				-webkit-user-drag: none;
+				user-select: none;
+				-webkit-user-select: none;
+				-webkit-touch-callout: none;
+			}
+			.gp-fig img,
+			.gp-fig video,
+			#gp-lb-img {
+				pointer-events: none;
+			}
+			.gp-fig::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: 5;
+			}
 		</style>
 	</head>
 	<body>
@@ -448,6 +467,16 @@ const { kicker, heading, subtitle = "", items } = Astro.props as Props;
 
 		<script is:inline>
 			(function () {
+				// 图片保护：禁右键、禁拖拽
+				document.addEventListener("contextmenu", function (e) {
+					if (e.target.closest && e.target.closest("img, video, figure, .gp-lb"))
+						e.preventDefault();
+				});
+				document.addEventListener("dragstart", function (e) {
+					if (e.target.closest && e.target.closest("img, video"))
+						e.preventDefault();
+				});
+
 				const lb = document.getElementById("gp-lb");
 				const img = document.getElementById("gp-lb-img");
 				const vid = document.getElementById("gp-lb-video");

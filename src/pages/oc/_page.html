@@ -9,153 +9,219 @@
 <body>
 <x-dc>
 <helmet>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  
+
   <style>
+    /* * 是“所有元素”的意思：让每个元素的 padding/border 都算在宽高内，方便布局计算 */
     *{ box-sizing:border-box; }
+    /* <html> 整个文档：点击锚点(#xxx)跳转时平滑滚动，而不是瞬间跳转 */
     html{ scroll-behavior:smooth; }
+    /* <body> 整个页面主体：去掉默认外边距；统一字体为思源黑体；文字颜色深蓝灰；背景浅蓝白；隐藏横向滚动条；字体抗锯齿更清晰 */
     body{ margin:0; font-family:"Noto Sans SC",system-ui,sans-serif; color:#33485c; background:#f3fafe; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    /* 所有 <img> 图片：默认按块级显示，宽度不超过父容器（防止图片溢出撑破布局） */
     img{ display:block; max-width:100%; }
+    /* 所有 <a> 链接：文字颜色继承父元素（不用浏览器默认蓝色），并去掉默认下划线 */
     a{ color:inherit; text-decoration:none; }
+    /* 输入框/文本域/按钮：统一使用页面字体，而不是浏览器默认字体 */
     input,textarea,button{ font-family:inherit; }
+    /* 鼠标选中文字时的高亮颜色：背景珊瑚色、文字深蓝灰 */
     ::selection{ background:#f8c5ac; color:#33485c; }
+    /* 滚动条整体宽度（仅 Chrome/Edge 等 WebKit 内核浏览器生效） */
     ::-webkit-scrollbar{ width:11px; }
+    /* 滚动条滑块的颜色、圆角、与轨道间的留白边框 */
     ::-webkit-scrollbar-thumb{ background:#bfe0f5; border-radius:9px; border:3px solid #f3fafe; }
+    /* 以下一大段 @keyframes 都是“动画剧本”：定义一个动画从开始到结束怎么变化，
+       具体哪个元素会用上某个动画，要看后面 style="animation:xxx" 里引用的名字 */
+    /* riseP：从下往上飘起并轻微右移（气泡粒子用） */
     @keyframes riseP{ 0%{ transform:translateY(8vh) translateX(0); } 100%{ transform:translateY(-110vh) translateX(28px); } }
+    /* fallP：从上往下飘落并旋转（雪花粒子用） */
     @keyframes fallP{ 0%{ transform:translateY(-12vh) translateX(0) rotate(0deg); } 100%{ transform:translateY(112vh) translateX(34px) rotate(220deg); } }
+    /* twinkleP：忽明忽暗、忽大忽小的闪烁效果（星屑粒子用） */
     @keyframes twinkleP{ 0%,100%{ opacity:.12; transform:scale(.7);} 50%{ opacity:.95; transform:scale(1.15);} }
+    /* bob：上下轻轻浮动并小幅摇摆（首屏配图用） */
     @keyframes bob{ 0%,100%{ transform:translateY(0) rotate(-1deg);} 50%{ transform:translateY(-16px) rotate(1deg);} }
+    /* blobDrift：缓慢漂移并缩放（背景大圆形光斑用） */
     @keyframes blobDrift{ 0%,100%{ transform:translate(0,0) scale(1);} 33%{ transform:translate(36px,-26px) scale(1.08);} 66%{ transform:translate(-26px,22px) scale(.94);} }
+    /* scrollDot：上下移动并淡入淡出（首屏“向下滚动”提示用） */
     @keyframes scrollDot{ 0%{ transform:translateY(0); opacity:0;} 30%{ opacity:1;} 100%{ transform:translateY(20px); opacity:0;} }
+    /* floatBadge：上下浮动并左右轻微倾斜（目前未在下方元素中引用，是备用动画） */
     @keyframes floatBadge{ 0%,100%{ transform:translateY(0) rotate(-6deg);} 50%{ transform:translateY(-10px) rotate(4deg);} }
+    /* spinSlow：匀速 360 度旋转（圆形徽章用） */
     @keyframes spinSlow{ from{ transform:rotate(0);} to{ transform:rotate(360deg);} }
+    /* wobble：左右摇晃并上下浮动（首屏漂浮文字气泡用） */
     @keyframes wobble{ 0%,100%{ transform:rotate(-3deg) translateY(0);} 50%{ transform:rotate(3deg) translateY(-7px);} }
+    /* marquee：向左匀速平移（跑马灯文字横向滚动用） */
     @keyframes marquee{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+    /* pawFade：从原位置淡出并向上飘走缩小（鼠标移动时的爱心/星星拖尾特效用） */
     @keyframes pawFade{ 0%{ opacity:.95; transform:translate(-50%,-50%) scale(1);} 100%{ opacity:0; transform:translate(-50%,-140%) scale(.35);} }
-    /* scrapbook photos */
+    /* 以下几条专门针对 #gallery（画作区）和 #fursuit（毛照区）里的 <figure> 照片卡片 */
+    /* 给每张照片卡片统一设置变化时的过渡动画（旋转/阴影/透明度/模糊都要慢慢过渡，而不是瞬间跳变） */
     #gallery figure, #fursuit figure{ transition:transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease, opacity .85s cubic-bezier(.16,1,.3,1), filter .85s cubic-bezier(.16,1,.3,1) !important; }
+    /* 第1、5、9...张照片：固定逆时针旋转 2.3 度，营造“随手贴上去”的错落感 */
     #gallery figure:nth-of-type(4n+1), #fursuit figure:nth-of-type(4n+1){ transform:rotate(-2.3deg); }
+    /* 第2、6、10...张照片：固定顺时针旋转 1.9 度 */
     #gallery figure:nth-of-type(4n+2), #fursuit figure:nth-of-type(4n+2){ transform:rotate(1.9deg); }
+    /* 第3、7、11...张照片：固定逆时针旋转 1.1 度 */
     #gallery figure:nth-of-type(4n+3), #fursuit figure:nth-of-type(4n+3){ transform:rotate(-1.1deg); }
+    /* 第4、8、12...张照片：固定顺时针旋转 2.5 度 */
     #gallery figure:nth-of-type(4n),   #fursuit figure:nth-of-type(4n){ transform:rotate(2.5deg); }
+    /* 鼠标悬停在任意一张照片上时：摆正角度、向上抬起并放大一点，同时阴影变深，层级提到最上面 */
     #gallery figure:hover, #fursuit figure:hover{ transform:rotate(0) translateY(-7px) scale(1.025) !important; z-index:5; box-shadow:0 24px 50px rgba(76,130,170,.3) !important; }
+    /* 用 ::before 在每张照片顶部“画”出一条像纸质相册里的胶带贴纸（黄色半透明矩形+轻微旋转） */
     #gallery figure::before, #fursuit figure::before{ content:''; position:absolute; top:9px; left:50%; width:78px; height:22px; transform:translateX(-50%) rotate(-4deg); background:rgba(245,217,138,.5); box-shadow:0 2px 6px rgba(0,0,0,.08); z-index:4; pointer-events:none; }
+    /* 偶数序号照片的胶带：换成蓝色、反方向旋转，让胶带颜色和方向交替出现 */
     #gallery figure:nth-of-type(even)::before, #fursuit figure:nth-of-type(even)::before{ transform:translateX(-50%) rotate(5deg); background:rgba(169,217,245,.5); }
+  /* .rp-more-btn 是“查看更多”按钮：设置变化时的过渡动画（位移/阴影/边框色/文字色） */
   .rp-more-btn{ transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease; }
+/* 鼠标悬停“查看更多”按钮时：向上抬起、阴影加深、边框和文字变成主题强调色 */
 .rp-more-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(76,130,170,.22); border-color:var(--accent); color:var(--accent); }
 </style>
 </helmet>
 
+<!-- 整个页面的最外层容器 div，id="rainple-root"；style 里一长串 --xxx 是“CSS变量”，
+     相当于先定义好一批可复用的颜色（天蓝/奶黄/珊瑚色等），后面元素用 var(--xxx) 来引用，
+     这样换主题时只改这里几个变量，全站颜色跟着变。position/width/overflow/color 是给这个容器本身设置定位、宽度、裁切溢出内容、默认文字颜色 -->
 <div id="rainple-root" data-screen-label="雨枫 rainple 主页" style="--sky:#a9d9f5; --sky2:#cdeafb; --sky-deep:#6fb8e8; --cream:#f5d98a; --cream2:#fbe6bd; --coral:#f3805a; --ink:#33485c; --ink-soft:#62788b; --paper:#f3fafe; --accent:#f3805a; --hero-grad:linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%); position:relative; width:100%; overflow:hidden; color:var(--ink);">
 
-  <!-- ===== NAV ===== -->
+  <!-- ===== NAV：顶部导航栏区域 ===== -->
+  <!-- <nav> 导航栏：固定贴在屏幕顶部(position:fixed top:0)，左右贴边(left/right:0)，
+       层级 z-index:60 保证盖在其他内容上面；左右两端对齐布局(justify-content:space-between)；
+       transition 让“滚动后背景变白”这一变化是渐变过渡而不是瞬间切换 -->
   <nav id="rp-nav" style="position:fixed; top:0; left:0; right:0; z-index:60; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); transition:background .35s ease, box-shadow .35s ease, padding .35s ease;">
+    <!-- 左上角 Logo 链接，点击跳回页面顶部(#top) -->
     <a href="#top" style="display:flex; align-items:baseline; gap:10px;">
+      <!-- “雨枫”两个字：用毛笔风格字体 ZCOOL KuaiLe，字号26px -->
       <span style="font-family:'ZCOOL KuaiLe',cursive; font-size:26px; color:var(--ink); line-height:1;">雨枫</span>
+      <!-- “rainple”英文：用 Fredoka 字体，字间距拉宽(letter-spacing)，颜色用主题深蓝 -->
       <span style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; letter-spacing:2px; color:var(--sky-deep);">rainple</span>
     </a>
+    <!-- 右侧导航链接组：横排，元素间留有间距(gap) -->
     <div style="display:flex; align-items:center; gap:clamp(10px,2vw,30px); font-size:14px; font-weight:500;">
+      <!-- 以下每个 <a> 是一个导航文字链接，href="#xxx" 表示点击后滚动到页面中 id="xxx" 的区块；
+           style-hover 不是标准 HTML 属性，是这个自定义运行时(dc-runtime.js)识别的“鼠标悬停时样式”写法 -->
       <a href="#about" style="position:relative; padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">关于</a>
       <a href="#design" style="padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">设定</a>
       <a href="#gallery" style="padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">画作</a>
       <a href="#fursuit" style="padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">毛照</a>
       <a href="#social" style="padding:6px 2px; color:var(--ink-soft);" style-hover="color:var(--ink);">社交</a>
+      <!-- “博客 →”按钮：跳转回站点首页"/"，圆角胶囊边框样式 -->
       <a href="/" style="padding:6px 16px; border-radius:999px; border:1.5px solid var(--sky-deep); color:var(--sky-deep);" style-hover="background:var(--sky-deep); color:#fff;">博客 →</a>
+      <!-- “留言”按钮：实心橙色圆角按钮，跳到 #contact 留言区 -->
       <a href="#contact" style="padding:8px 18px; border-radius:999px; background:var(--accent); color:#fff; box-shadow:0 6px 16px rgba(243,128,90,.35);" style-hover="transform:translateY(-2px); box-shadow:0 10px 22px rgba(243,128,90,.45);">留言</a>
     </div>
   </nav>
 
-  <!-- ===== HERO ===== -->
+  <!-- ===== HERO：首屏大图区域（打开页面最先看到的整屏内容） ===== -->
+  <!-- <header> 首屏容器：高度至少占满一屏(min-height:100vh)，垂直居中排列内容，背景用前面定义的渐变色变量 -->
   <header id="top" style="position:relative; min-height:100vh; display:flex; align-items:center; background:var(--hero-grad); padding:120px clamp(20px,5vw,64px) 80px;">
+    <!-- 粒子特效容器：空的 div，JS 会往里面动态生成星星/雪花/气泡（见底部脚本 buildParticles 方法） -->
     <div id="particle-layer" style="position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1;"></div>
+    <!-- 背景装饰圆形光斑①：右上角大圆形渐变光斑，叠加模糊滤镜，配合 blobDrift 动画缓慢漂移 -->
     <div id="rp-blob1" style="position:absolute; top:-8%; right:-6%; width:46vw; height:46vw; max-width:620px; max-height:620px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(255,255,255,.85), rgba(169,217,245,.35) 60%, transparent 72%); filter:blur(6px); animation:blobDrift 16s ease-in-out infinite; z-index:0;"></div>
+    <!-- 背景装饰圆形光斑②：左下角奶黄色光斑，动画方向与①相反(reverse) -->
     <div id="rp-blob2" style="position:absolute; bottom:-14%; left:-10%; width:40vw; height:40vw; max-width:520px; max-height:520px; border-radius:50%; background:radial-gradient(circle at 50% 50%, rgba(251,230,189,.7), transparent 70%); filter:blur(10px); animation:blobDrift 22s ease-in-out infinite reverse; z-index:0;"></div>
+    <!-- 漂浮文字气泡的容器：铺满整屏(inset:0)，不响应鼠标点击(pointer-events:none) -->
     <div style="position:absolute; inset:0; z-index:3; pointer-events:none;">
-      
+
+      <!-- 漂浮气泡①“会喷火（并不）”：奶黄色圆角小标签，定位在右侧偏上，wobble 动画让它轻轻摇摆 -->
       <span style="position:absolute; top:32%; right:4%; padding:8px 15px; border-radius:14px; background:var(--cream); box-shadow:0 8px 20px rgba(245,217,138,.45); font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:#7a5a1d; animation:wobble 5s ease-in-out .5s infinite;">会喷火（并不）</span>
+      <!-- 漂浮气泡②“⚡耳朵会发光”：白色圆角小标签，定位在左侧偏下，延迟0.9秒开始摇摆，制造错落感 -->
       <span style="position:absolute; bottom:21%; left:6%; padding:8px 15px; border-radius:14px; background:#fff; box-shadow:0 8px 20px rgba(76,130,170,.18); font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:var(--sky-deep); animation:wobble 4.6s ease-in-out .9s infinite;">⚡ 耳朵会发光</span>
     </div>
 
-    <div style="position:relative; z-index:3; width:100%; max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(24px,4vw,64px); align-items:center;">
+    <!-- 首屏主内容容器：用 grid 网格布局分成左右两列（左文字 1份 : 右图片 1.08份），居中限宽1240px -->
+    <div style="position:relative; z-index:3; width:100%; max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1fr 1.08fr; gap:clamp(24px,4vw,64px); align-items:center;">
+      <!-- 左列：文字介绍区 -->
       <div>
+        <!-- 小圆角标签“欢迎光临我的小窝”：data-reveal 不是标准属性，是自定义运行时用来标记“滚动进入视口时要淡入显示”的元素 -->
         <div data-reveal="" style="display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px; background:rgba(255,255,255,.7); backdrop-filter:blur(6px); font-family:'Fredoka',sans-serif; font-size:12px; font-weight:600; letter-spacing:3px; color:var(--sky-deep); box-shadow:0 4px 14px rgba(111,184,232,.18);">✦ 欢迎光临我的小窝 · welcome to my den</div>
+        <!-- <h1> 全站最大的一级标题“雨枫”：字号用 clamp() 随屏幕宽度在72px~172px间自适应缩放 -->
         <h1 data-reveal="" style="margin:22px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(72px,12vw,172px); line-height:.9; color:var(--ink); text-shadow:0 6px 0 rgba(255,255,255,.6);">雨枫</h1>
+        <!-- 英文名“rainple”副标题 -->
         <div data-reveal="" style="margin:6px 0 0; font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(26px,4.4vw,52px); letter-spacing:8px; color:var(--sky-deep);">rainple</div>
+        <!-- 自我介绍段落 <p>：中文正文 + 换行 <br> + 英文小字版本 -->
         <p data-reveal="" style="margin:26px 0 0; max-width:440px; font-size:clamp(15px,1.5vw,18px); line-height:1.9; color:var(--ink-soft);">嗨！我是雨枫～ 一只天蓝色的小狼龙。爱泡温泉、爱啃烤红薯，心情好的时候，耳朵上的闪电会偷偷发光⚡<br><span style="font-family:'Fredoka',sans-serif; font-size:14px; letter-spacing:.3px;">Hi! I'm rainple — a sky-blue wolfdragon who runs on hot springs, sweet potatoes, and a little bit of lightning. ⚡</span></p>
+        <!-- 两个按钮的容器：换行自动排列(flex-wrap)，按钮间留间距 -->
         <div data-reveal="" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:34px;">
+          <!-- 主按钮“看我长啥样”：橙色实心，跳到 #design 设定区 -->
           <a href="#design" style="padding:14px 30px; border-radius:999px; background:var(--accent); color:#fff; font-weight:600; font-size:15px; box-shadow:0 10px 24px rgba(243,128,90,.38);" style-hover="transform:translateY(-3px); box-shadow:0 16px 30px rgba(243,128,90,.48);">看我长啥样 ✦</a>
+          <!-- 次按钮“翻翻相册”：白色半透明，跳到 #gallery 画作区 -->
           <a href="#gallery" style="padding:14px 30px; border-radius:999px; background:rgba(255,255,255,.85); color:var(--ink); font-weight:600; font-size:15px; box-shadow:0 8px 20px rgba(111,184,232,.22);" style-hover="transform:translateY(-3px); background:#fff;">翻翻相册 📸</a>
         </div>
+        <!-- 底部两个圆点标签“狼龙·Wolfdragon”“天蓝·雪白·奶黄”：每个标签前面有个小圆点(width/height:9px的span) -->
         <div data-reveal="" style="display:flex; gap:20px; margin-top:30px; font-size:13px; color:var(--ink-soft);">
           <span style="display:flex; align-items:center; gap:7px;"><span style="width:9px; height:9px; border-radius:50%; background:var(--sky);"></span>狼龙 · Wolfdragon</span>
           <span style="display:flex; align-items:center; gap:7px;"><span style="width:9px; height:9px; border-radius:50%; background:var(--cream);"></span>天蓝 · 雪白 · 奶黄</span>
         </div>
       </div>
 
+      <!-- 右列：人物配图区 -->
       <div data-reveal="" style="position:relative; justify-self:center;">
-        <div id="rp-hero-img" style="position:relative; width:clamp(280px,38vw,480px); aspect-ratio:1/1; border-radius:36px; overflow:hidden; box-shadow:0 30px 70px rgba(76,130,170,.32); border:6px solid rgba(255,255,255,.85); animation:bob 7s ease-in-out infinite;">
-          <img src="assets/hero.jpg" alt="雨枫在温泉" style="width:100%; height:100%; object-fit:cover;">
+        <!-- 圆角相框容器：固定宽高比3:2，白色描边，配合 bob 动画上下轻轻浮动 -->
+        <div id="rp-hero-img" style="position:relative; width:clamp(300px,48vw,600px); aspect-ratio:3/2; border-radius:36px; overflow:hidden; box-shadow:0 30px 70px rgba(76,130,170,.32); border:6px solid rgba(255,255,255,.85); animation:bob 7s ease-in-out infinite;">
+          <!-- 真正的人物立绘图片：object-fit:cover 让图片裁切填满相框而不变形 -->
+          <img src="assets/0627_3.png" alt="雨枫 rainple 设定" style="width:100%; height:100%; object-fit:cover; object-position:center;">
         </div>
-        
+
+        <!-- 右下角圆形徽章“★ YUFENG”：奶黄色圆形，spinSlow 动画让它持续缓慢旋转 -->
         <div style="position:absolute; bottom:-18px; right:-18px; width:74px; height:74px; border-radius:50%; background:var(--cream); display:flex; align-items:center; justify-content:center; font-family:'Fredoka',sans-serif; font-weight:700; font-size:12px; color:#7a5a1d; box-shadow:0 10px 22px rgba(245,217,138,.5); animation:spinSlow 18s linear infinite;"><span style="display:block; text-align:center; line-height:1.2;">★<br>YUFENG</span></div>
       </div>
     </div>
 
+    <!-- 首屏底部“向下滚动”提示：点击会跳到 #about 关于区；垫高在屏幕底部并水平居中 -->
     <a href="#about" style="position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:4; display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--ink-soft); font-size:11px; letter-spacing:2px;">
       <span>SCROLL</span>
+      <!-- 一个胶囊形状的小外框，里面有个小圆点用 scrollDot 动画上下移动，模拟“滚轮”视觉效果 -->
       <span style="position:relative; width:24px; height:38px; border:2px solid var(--sky-deep); border-radius:14px; display:block;"><span style="position:absolute; top:7px; left:50%; transform:translateX(-50%); width:5px; height:5px; border-radius:50%; background:var(--sky-deep); animation:scrollDot 1.6s ease-in-out infinite;"></span></span>
     </a>
   </header>
 
-  <!-- ===== MARQUEE ===== -->
+  <!-- ===== MARQUEE：橙色跑马灯横条 ===== -->
+  <!-- aria-hidden="true" 表示对屏幕阅读器隐藏（纯装饰，不是正文内容）；整体被旋转-1.5度并放大，制造“贴纸”斜放的效果 -->
   <div aria-hidden="true" style="overflow:hidden; background:var(--accent); transform:rotate(-1.5deg) scale(1.04); margin:26px -12px; padding:13px 0; box-shadow:0 12px 30px rgba(243,128,90,.28);">
+    <!-- 文字滚动轨道：宽度按内容自适应(width:max-content)，配合 marquee 动画持续向左滚动，循环26秒一轮 -->
     <div style="display:flex; width:max-content; white-space:nowrap; animation:marquee 26s linear infinite; font-family:'ZCOOL KuaiLe',cursive; font-size:21px; color:#fff; letter-spacing:1px;">
+      <!-- 同样的文字重复写了两遍首尾相接，这样滚动到第二份时刚好能无缝接上第一份，看起来像无限循环 -->
       <span>雨枫 ✦ rainple ✦ 软萌狼龙 ✦ 会喷火（并不） ✦ 耳朵会发光⚡ ✦ 来找我玩呀 ✦&nbsp;</span>
       <span>雨枫 ✦ rainple ✦ 软萌狼龙 ✦ 会喷火（并不） ✦ 耳朵会发光⚡ ✦ 来找我玩呀 ✦&nbsp;</span>
     </div>
   </div>
 
-  <!-- ===== ABOUT ===== -->
+  <!-- ===== ABOUT：关于介绍区块 ===== -->
+  <!-- <section id="about"> 整块区域，纯白背景，上下留白用 clamp() 随屏幕自适应 -->
   <section id="about" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:#fff;">
+    <!-- 内容容器：grid 分左右两列（左1.1份文字 : 右0.9份卡片），限宽居中 -->
     <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(30px,5vw,80px); align-items:center;">
+      <!-- 左列：纯文字介绍 -->
       <div>
+        <!-- 小号橙色分类标签文字“ABOUT·关于” -->
         <div data-reveal="" style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">ABOUT · 关于</div>
+        <!-- <h2> 二级标题“先自我介绍一下！” -->
         <h2 data-reveal="" style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink); line-height:1.15;">先自我介绍一下！</h2>
+        <!-- 中文介绍段落，行高 line-height:2 拉大方便阅读 -->
         <p data-reveal="" style="margin:26px 0 0; font-size:clamp(15px,1.4vw,17px); line-height:2; color:var(--ink-soft);">雨枫是一只温柔又有点小馋的小狼龙。喜欢在雾气腾腾的温泉里发呆，秋天会捧着热乎的烤红薯，冬夜把自己埋进雪和暖汤里。多条蓬松的尾巴是她的骄傲，而生气或开心时，耳朵上的闪电纹会轻轻亮起来。</p>
+        <!-- 英文版介绍段落，字号更小一些作为补充说明 -->
         <p data-reveal="" style="margin:18px 0 0; font-family:'Fredoka',sans-serif; font-size:14px; line-height:1.95; color:var(--ink-soft);">rainple is a gentle, slightly greedy little wolfdragon. She loves daydreaming in steamy hot springs, holding a warm roasted sweet potato in autumn, and curling into snow and warm water on winter nights. Her fluffy tails are her pride — and when she's happy, the lightning marks on her ears softly glow.</p>
       </div>
+      <!-- 右列：仿“个人资料卡”的卡片 -->
       <div data-reveal="" style="position:relative;">
+        <!-- 卡片右上角的圆形虚化光斑装饰，纯背景修饰用 -->
         <div style="position:absolute; inset:-14px -14px auto auto; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,var(--sky2),transparent 70%); z-index:0;"></div>
+        <!-- 卡片主体：圆角矩形，浅蓝渐变背景，柔和阴影 -->
         <div style="position:relative; z-index:1; border-radius:28px; background:linear-gradient(180deg,#f7fcff,#eef7fe); border:1px solid #e1f0fb; box-shadow:0 24px 50px rgba(76,130,170,.16); overflow:hidden;">
+          <!-- 卡片顶部“标题栏”，模仿电脑窗口的三个圆点按钮（红/黄/蓝），右边写着卡片名 PROFILE.CARD -->
           <div style="padding:22px 26px; border-bottom:1px dashed #d4e8f7; display:flex; align-items:center; gap:10px;">
             <span style="width:11px; height:11px; border-radius:50%; background:var(--coral);"></span>
             <span style="width:11px; height:11px; border-radius:50%; background:var(--cream);"></span>
             <span style="width:11px; height:11px; border-radius:50%; background:var(--sky);"></span>
             <span style="margin-left:auto; font-family:'Fredoka',sans-serif; font-size:12px; letter-spacing:2px; color:var(--ink-soft);">PROFILE.CARD</span>
           </div>
+          <!-- 卡片正文：资料列表区域 -->
           <div style="padding:8px 26px 26px;">
+            <!-- <sc-for> 是自定义“循环”标签：对 {{ facts }} 这个数组里的每一项数据(f)重复渲染一次里面的内容（facts 数据定义在文末脚本里，比如“中文名/英文名/物种”等） -->
             <sc-for list="{{ facts }}" as="f" hint-placeholder-count="6">
+              <!-- 每一行资料：左边是字段名(f.k)，右边是字段值(f.v)，两端对齐，底部有细分隔线 -->
               <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:15px 0; border-bottom:1px solid #ecf5fc;">
                 <span style="font-size:13px; color:var(--ink-soft); letter-spacing:1px;">{{ f.k }}</span>
                 <span style="font-size:15px; font-weight:600; color:var(--ink); text-align:right;">{{ f.v }}</span>
@@ -167,19 +233,24 @@
     </div>
   </section>
 
-  <!-- ===== DESIGN / REFERENCE ===== -->
+  <!-- ===== DESIGN / REFERENCE：角色设定区（配色卡 + 特征 + 性格） ===== -->
   <section id="design" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:linear-gradient(180deg,#f3fafe,#eaf6fe);">
     <div style="max-width:1180px; margin:0 auto;">
+      <!-- 区块标题：居中的小标签 + 大标题 -->
       <div data-reveal="" style="text-align:center;">
         <div style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">REFERENCE SHEET · 角色设定</div>
         <h2 style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink);">我的配色 &amp; 零件 🧩</h2>
       </div>
 
-      <!-- palette -->
+      <!-- palette：配色卡片网格，4列等宽 -->
       <div data-reveal="" style="margin-top:54px; display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(12px,2vw,22px);">
+        <!-- 循环渲染 {{ palette }} 数组（定义在文末脚本，如天蓝/雪白/奶黄/腮红四种颜色），每项叫做 c -->
         <sc-for list="{{ palette }}" as="c" hint-placeholder-count="4">
+          <!-- 单个配色卡片：data-card 标记它要参与“滚动淡入”动效（见底部 initCardReveal 方法） -->
           <div data-card="" style="border-radius:22px; overflow:hidden; background:#fff; box-shadow:0 14px 32px rgba(76,130,170,.12);" style-hover="transform:translateY(-6px); box-shadow:0 22px 44px rgba(76,130,170,.2);">
+            <!-- 上半部分纯色色块，背景色直接取自数据 c.hex（比如 #A9D9F5） -->
             <div style="height:120px; background:{{ c.hex }};"></div>
+            <!-- 下半部分文字说明：颜色名称、十六进制色值、用途说明 -->
             <div style="padding:16px 18px;">
               <div style="font-weight:700; font-size:16px; color:var(--ink);">{{ c.name }}</div>
               <div style="font-family:'Fredoka',sans-serif; font-size:13px; color:var(--ink-soft); letter-spacing:1px;">{{ c.hex }}</div>
@@ -189,13 +260,18 @@
         </sc-for>
       </div>
 
-      <!-- features + traits -->
+      <!-- features + traits：左边“外观特征”列表，右边“性格”标签云，左宽右窄 -->
       <div style="margin-top:clamp(36px,5vw,60px); display:grid; grid-template-columns:1.25fr .75fr; gap:clamp(24px,4vw,48px); align-items:start;">
+        <!-- 左边：外观特征 -->
         <div data-reveal="">
           <h3 style="font-family:'ZCOOL KuaiLe',cursive; font-size:24px; color:var(--ink); margin:0 0 18px;">外观特征 · Features</h3>
+          <!-- 特征卡片网格：2列 -->
           <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:14px;">
+            <!-- 循环渲染 {{ features }} 数组（如“奶黄龙角”“闪电耳纹”等6条特征），每项叫做 ft -->
             <sc-for list="{{ features }}" as="ft" hint-placeholder-count="6">
+              <!-- 单条特征卡片：左边一个小圆点图标，右边标题+描述文字 -->
               <div data-card="" style="display:flex; gap:14px; padding:18px; border-radius:18px; background:#fff; box-shadow:0 10px 24px rgba(76,130,170,.1);" style-hover="transform:translateY(-4px);">
+                <!-- 小圆点：背景色取 ft.dot，外面再叠一层光晕 box-shadow 取 ft.glow -->
                 <span style="flex:none; width:14px; height:14px; margin-top:5px; border-radius:50%; background:{{ ft.dot }}; box-shadow:0 0 0 4px {{ ft.glow }};"></span>
                 <div>
                   <div style="font-weight:700; font-size:15px; color:var(--ink);">{{ ft.t }}</div>
@@ -205,16 +281,21 @@
             </sc-for>
           </div>
         </div>
+        <!-- 右边：性格标签 -->
         <div data-reveal="">
           <h3 style="font-family:'ZCOOL KuaiLe',cursive; font-size:24px; color:var(--ink); margin:0 0 18px;">性格 · Personality</h3>
+          <!-- 性格标签云：自动换行排列 -->
           <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <!-- 循环渲染 {{ traits }} 数组（如“软萌”“好奇”等6个性格词），每项叫做 tr -->
             <sc-for list="{{ traits }}" as="tr" hint-placeholder-count="6">
+              <!-- 单个性格标签：中文在上、英文小字在下，鼠标悬停时上浮并轻微倾斜 -->
               <span data-card="" style="display:inline-flex; flex-direction:column; align-items:center; gap:2px; padding:13px 20px; border-radius:16px; background:linear-gradient(180deg,#fff,#f4fbff); box-shadow:0 8px 18px rgba(76,130,170,.12);" style-hover="transform:translateY(-4px) rotate(-2deg);">
                 <span style="font-family:'ZCOOL KuaiLe',cursive; font-size:18px; color:var(--ink);">{{ tr.zh }}</span>
                 <span style="font-family:'Fredoka',sans-serif; font-size:11px; letter-spacing:1px; color:var(--sky-deep);">{{ tr.en }}</span>
               </span>
             </sc-for>
           </div>
+          <!-- 性格区下方的引言卡片：渐变背景，引用了一句俏皮话作总结 -->
           <div style="margin-top:24px; padding:20px 22px; border-radius:20px; background:linear-gradient(135deg,var(--sky2),#fdf2e0); box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);">
             <div style="font-family:'ZCOOL KuaiLe',cursive; font-size:17px; color:var(--ink); line-height:1.7;">“喜欢温泉、烤红薯<br>和会发光的小事。”</div>
             <div style="font-family:'Fredoka',sans-serif; font-size:12px; color:var(--ink-soft); margin-top:8px;">loves hot springs, sweet potatoes &amp; little glowing things.</div>
@@ -224,9 +305,10 @@
     </div>
   </section>
 
-  <!-- ===== GALLERY ===== -->
+  <!-- ===== GALLERY：画作展示区 ===== -->
   <section id="gallery" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:#fff;">
     <div style="max-width:1240px; margin:0 auto;">
+      <!-- 标题行：左边大标题，右边一句提示语，两端对齐 -->
       <div data-reveal="" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
         <div>
           <div style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">ARTWORK · 画作</div>
@@ -235,10 +317,17 @@
         <div style="font-size:13px; color:var(--ink-soft); max-width:300px; text-align:right;">点击任意一张放大查看 ✦<br><span style="font-family:'Fredoka',sans-serif;">tap any piece to enlarge</span></div>
       </div>
 
+      <!-- 瀑布流画廊容器：column-count:3 把内容分成3栏，类似 Pinterest 的瀑布流布局 -->
       <div data-reveal="" style="margin-top:46px; column-count:3; column-gap:18px;">
+        <!-- 循环渲染 {{ galleryFeatured }} 数组（精选画作列表，数据来自 public/oc/art/featured 文件夹，
+             由 src/utils/oc-gallery.ts 在构建时读取），每项叫做 g -->
         <sc-for list="{{ galleryFeatured }}" as="g" hint-placeholder-count="6">
+          <!-- 单张作品 <figure>：data-card-fig 标记参与“滚动模糊淡入”动效；data-src/cap/en 把数据存在元素自身上，
+               方便 onclick 触发的 openLightbox 函数读取并打开大图；break-inside:avoid 防止瀑布流把单张图片从中间切断 -->
           <figure data-card-fig="" data-src="{{ g.src }}" data-cap="{{ g.cap }}" data-en="{{ g.en }}" onclick="{{ openLightbox }}" style="break-inside:avoid; margin:0 0 18px; border-radius:20px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 12px 30px rgba(76,130,170,.14); background:#eaf4fb;">
+            <!-- 缩略图，loading="lazy" 表示图片滚动到附近才加载，节省流量 -->
             <img src="{{ g.src }}" alt="{{ g.cap }}" loading="lazy" style="width:100%; height:auto; display:block;">
+            <!-- <figcaption> 图片说明文字：盖在图片底部，背景从透明渐变到深色，让白色文字在任何图片上都看得清 -->
             <figcaption style="position:absolute; left:0; right:0; bottom:0; padding:26px 16px 14px; background:linear-gradient(transparent,rgba(28,46,64,.72)); color:#fff;">
               <div style="font-family:'ZCOOL KuaiLe',cursive; font-size:17px;">{{ g.cap }}</div>
               <div style="font-family:'Fredoka',sans-serif; font-size:11px; letter-spacing:1px; opacity:.85;">{{ g.en }}</div>
@@ -246,15 +335,17 @@
           </figure>
         </sc-for>
       </div>
+      <!-- <sc-if> 是自定义“条件渲染”标签：只有 {{ galleryHasMore }} 为真（还有更多没展示的画作）时，才显示下面这个“查看全部”按钮 -->
       <sc-if value="{{ galleryHasMore }}">
         <div style="text-align:center; margin-top:38px;">
+          <!-- class="rp-more-btn" 用的是前面 <style> 块里定义的悬停动效；按钮文字内容来自 {{ galleryTotalLabel }}（如“查看全部12项→”） -->
           <a href="/oc/art/" class="rp-more-btn" style="font-family:'Fredoka','Noto Sans SC',sans-serif; font-size:15px; font-weight:600; color:var(--ink); background:#fff; border:2px solid #d8ebf8; border-radius:999px; padding:13px 36px; cursor:pointer; box-shadow:0 8px 22px rgba(76,130,170,.14); display:inline-block; text-decoration:none;">{{ galleryTotalLabel }}</a>
         </div>
       </sc-if>
     </div>
   </section>
 
-  <!-- ===== FURSUIT ===== -->
+  <!-- ===== FURSUIT：毛绒玩偶照片区（结构和上面 GALLERY 几乎一样，只是数据源换成毛照） ===== -->
   <section id="fursuit" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:linear-gradient(180deg,#ffffff,#eaf6fe);">
     <div style="max-width:1240px; margin:0 auto;">
       <div data-reveal="" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
@@ -264,6 +355,7 @@
         </div>
         <div style="font-size:13px; color:var(--ink-soft); max-width:320px; text-align:right;">从屏幕跳进现实的小狼龙 ✦<br><span style="font-family:'Fredoka',sans-serif;">the wolfdragon, brought to life</span></div>
       </div>
+      <!-- 同样是3栏瀑布流，循环渲染 {{ fursuitFeatured }} 数组（毛照数据来自 public/oc/fursuit/featured 文件夹），每项叫做 p -->
       <div data-reveal="" style="margin-top:46px; column-count:3; column-gap:18px;">
         <sc-for list="{{ fursuitFeatured }}" as="p" hint-placeholder-count="6">
           <figure data-card-fig="" data-src="{{ p.src }}" data-cap="{{ p.cap }}" data-en="{{ p.en }}" onclick="{{ openLightbox }}" style="break-inside:avoid; margin:0 0 18px; border-radius:20px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 12px 30px rgba(76,130,170,.14); background:#eaf4fb;">
@@ -275,6 +367,7 @@
           </figure>
         </sc-for>
       </div>
+      <!-- 同样只有还有更多毛照时才显示这个按钮，跳转到 /oc/fursuit/ 完整相册页 -->
       <sc-if value="{{ fursuitHasMore }}">
         <div style="text-align:center; margin-top:38px;">
           <a href="/oc/fursuit/" class="rp-more-btn" style="font-family:'Fredoka','Noto Sans SC',sans-serif; font-size:15px; font-weight:600; color:var(--ink); background:#fff; border:2px solid #d8ebf8; border-radius:999px; padding:13px 36px; cursor:pointer; box-shadow:0 8px 22px rgba(76,130,170,.14); display:inline-block; text-decoration:none;">{{ furTotalLabel }}</a>
@@ -283,7 +376,7 @@
     </div>
   </section>
 
-  <!-- ===== SOCIAL ===== -->
+  <!-- ===== SOCIAL：社交账号链接区 ===== -->
   <section id="social" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:linear-gradient(180deg,#eaf6fe,#fdf6ea);">
     <div style="max-width:1100px; margin:0 auto;">
       <div data-reveal="" style="text-align:center;">
@@ -291,18 +384,27 @@
         <h2 style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink);">来找雨枫玩呀</h2>
         <p style="margin:14px auto 0; max-width:440px; font-size:14px; color:var(--ink-soft);">把链接换成你自己的主页就好啦 · replace with your own links</p>
       </div>
+      <!-- 社交卡片网格：repeat(auto-fit,minmax(200px,1fr)) 表示每张卡片最小200px，自动根据屏幕宽度决定一行放几张 -->
       <div data-reveal="" style="margin-top:50px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:18px;">
+        <!-- 循环渲染 {{ socials }} 数组（Bilibili/QQ/兽频道/GitHub/X 等账号，定义在文末脚本），每项叫做 s -->
         <sc-for list="{{ socials }}" as="s" hint-placeholder-count="5">
+          <!-- 整张卡片本身就是一个可点击的链接 <a>，target="_blank" 新开标签页，rel="noopener" 是安全写法（防止新页面反向操控本页） -->
           <a data-card="" href="{{ s.url }}" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; padding:22px 24px; border-radius:20px; position:relative; background:#fff; box-shadow:0 12px 28px rgba(76,130,170,.12); transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-6px); box-shadow:0 22px 44px rgba(76,130,170,.22);">
+            <!-- 左侧图标方块：背景色取 s.color -->
             <span style="flex:none; width:48px; height:48px; border-radius:14px; background:{{ s.color }}; display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);">
+              <!-- 条件①：如果数据里有 iconSrc（图标图片路径），就显示这张小图标 -->
               <sc-if value="{{ s.iconSrc }}"><img src="{{ s.iconSrc }}" alt="{{ s.name }}" style="width:62%; height:62%; object-fit:contain; display:block;"></sc-if>
+              <!-- 条件②：如果数据里是 iconText（文字图标，比如“兽”字），就显示这个文字代替图片 -->
               <sc-if value="{{ s.iconText }}"><span style="font-family:'ZCOOL KuaiLe',cursive; font-size:26px; line-height:1; color:{{ s.iconColor }};">{{ s.iconText }}</span></sc-if>
             </span>
+            <!-- 中间文字：账号名称 + 账号ID，超长时用省略号截断(text-overflow:ellipsis) -->
             <span style="min-width:0;">
               <span style="display:block; font-weight:700; font-size:15px; color:var(--ink);">{{ s.name }}</span>
               <span style="display:block; font-family:'Fredoka',sans-serif; font-size:12px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ s.handle }}</span>
             </span>
+            <!-- 最右侧箭头“→”，margin-left:auto 把它推到卡片最右边 -->
             <span style="margin-left:auto; color:var(--sky-deep); font-size:18px;">→</span>
+            <!-- 条件③：只有数据里设置了 s.tag（比如GitHub那条的“龙会敲代码嗷~”）时，才在卡片右上角显示这个小贴纸标签 -->
             <sc-if value="{{ s.tag }}" hint-placeholder-val="{{ false }}">
               <span style="position:absolute; top:-11px; right:-7px; transform:rotate(8deg); padding:4px 11px; border-radius:999px; background:var(--cream); color:#7a5a1d; font-family:'ZCOOL KuaiLe',cursive; font-size:12px; box-shadow:0 5px 12px rgba(245,217,138,.55);">{{ s.tag }}</span>
             </sc-if>
@@ -312,18 +414,24 @@
     </div>
   </section>
 
-  <!-- ===== CONTACT ===== -->
+  <!-- ===== CONTACT：留言表单区 ===== -->
   <section id="contact" style="position:relative; padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px); background:#fff;">
     <div style="max-width:680px; margin:0 auto; text-align:center;">
       <div data-reveal="" style="font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; letter-spacing:4px; color:var(--coral);">MESSAGE · 留言</div>
       <h2 data-reveal="" style="margin:14px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(34px,5vw,58px); color:var(--ink);">丢句话给我吧 ✍</h2>
       <p data-reveal="" style="margin:14px 0 0; font-size:14px; color:var(--ink-soft);">悄悄话、夸夸、或者只是打个招呼都可以～</p>
+      <!-- <form> 表单：onsubmit="{{ submitMsg }}" 表示提交时调用文末脚本里定义的 submitMsg 函数（阻止真正刷新页面，改为前端显示“收到啦”提示） -->
       <form data-reveal="" onsubmit="{{ submitMsg }}" style="margin-top:40px; text-align:left; padding:clamp(24px,4vw,40px); border-radius:28px; background:linear-gradient(180deg,#f7fcff,#eef7fe); border:1px solid #e1f0fb; box-shadow:0 24px 50px rgba(76,130,170,.14);">
+        <!-- <label> 字段说明文字“你的名字” -->
         <label style="display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px;">你的名字 · name</label>
+        <!-- <input type="text"> 单行文本输入框；style-focus 是自定义运行时识别的“输入框被点击聚焦时”的样式（边框变蓝） -->
         <input type="text" placeholder="怎么称呼你呢？" style="width:100%; padding:14px 18px; border-radius:14px; border:1.5px solid #dcebf8; background:#fff; font-size:15px; color:var(--ink); outline:none; transition:border-color .2s;" style-focus="border-color:var(--sky-deep);">
         <label style="display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin:20px 0 8px;">留言 · message</label>
+        <!-- <textarea> 多行文本框，rows="4" 表示默认显示4行高度，resize:vertical 允许用户手动拖拽调整高度（只能上下拖，不能左右拖） -->
         <textarea rows="4" placeholder="想对雨枫说的话…" style="width:100%; padding:14px 18px; border-radius:14px; border:1.5px solid #dcebf8; background:#fff; font-size:15px; color:var(--ink); outline:none; resize:vertical; transition:border-color .2s;" style-focus="border-color:var(--sky-deep);"></textarea>
+        <!-- <button type="submit"> 提交按钮：点击会触发上面 <form> 的 onsubmit -->
         <button type="submit" style="margin-top:22px; width:100%; padding:16px; border:none; border-radius:14px; background:var(--accent); color:#fff; font-size:16px; font-weight:700; cursor:pointer; box-shadow:0 12px 26px rgba(243,128,90,.4); transition:transform .2s, box-shadow .2s;" style-hover="transform:translateY(-3px); box-shadow:0 18px 34px rgba(243,128,90,.5);">送出 ✦ send</button>
+        <!-- 提交成功提示：只有 {{ msgSent }} 状态为真时才显示这行“收到啦”文字（提交后由 submitMsg 函数临时打开，4秒后自动关闭） -->
         <sc-if value="{{ msgSent }}" hint-placeholder-val="{{ false }}">
           <div style="margin-top:18px; text-align:center; font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:var(--coral);">收到啦，谢谢你～ ♥</div>
         </sc-if>
@@ -331,9 +439,12 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER：页脚区 ===== -->
+  <!-- <footer> 深色背景的页脚，overflow:hidden 用来裁掉超出范围的大字背景装饰 -->
   <footer style="position:relative; padding:clamp(50px,7vw,80px) clamp(20px,5vw,64px) 44px; background:var(--ink); color:#cfe0ee; overflow:hidden;">
+    <!-- 右上角巨大的半透明“雨枫”二字，纯背景装饰，不影响阅读 -->
     <div style="position:absolute; top:-40px; right:6%; font-family:'ZCOOL KuaiLe',cursive; font-size:120px; color:rgba(169,217,245,.08); pointer-events:none;">雨枫</div>
+    <!-- 页脚主体：左边品牌信息，右边导航链接列表，两端对齐 -->
     <div style="position:relative; max-width:1180px; margin:0 auto; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between;">
       <div>
         <div style="display:flex; align-items:baseline; gap:10px;">
@@ -342,6 +453,7 @@
         </div>
         <p style="margin:10px 0 0; font-size:13px; color:#9fb6c9; max-width:360px; line-height:1.7;">一只住在云与温泉之间的小狼龙 · a little wolfdragon between clouds &amp; warm springs.</p>
       </div>
+      <!-- 竖排导航链接列表（重复一遍顶部导航的锚点链接，方便用户在页面底部也能快速跳转） -->
       <div style="display:flex; flex-direction:column; gap:8px; font-size:13px;">
         <a href="#about" style="color:#cfe0ee;" style-hover="color:#fff;">关于</a>
         <a href="#design" style="color:#cfe0ee;" style-hover="color:#fff;">设定</a>
@@ -350,38 +462,59 @@
         <a href="#social" style="color:#cfe0ee;" style-hover="color:#fff;">社交</a>
       </div>
     </div>
+    <!-- 最底部版权行：用细线和上面内容隔开；{{ year }} 是文末脚本里 new Date().getFullYear() 算出的当前年份 -->
     <div style="position:relative; max-width:1180px; margin:34px auto 0; padding-top:22px; border-top:1px solid rgba(255,255,255,.1); display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; font-size:12px; color:#8ba2b5;">
       <span>© {{ year }} 雨枫 rainple · all art belongs to its creator</span>
       <span style="font-family:'Fredoka',sans-serif;">made with ♥ &amp; a little lightning</span>
     </div>
   </footer>
 
-  <!-- ===== LIGHTBOX ===== -->
+  <!-- ===== LIGHTBOX：点击图片后弹出的全屏大图弹窗 ===== -->
+  <!-- 只有 {{ lightboxOpen }} 为真（即点击过某张图片）时，才会渲染下面这整块弹窗；默认是隐藏的(hint-placeholder-val="{{ false }}" 只是给可视化编辑器的占位提示) -->
   <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <!-- 半透明黑色遮罩层，铺满全屏(inset:0)；点击遮罩本身(onclick)会调用 closeLightbox 关闭弹窗；cursor:zoom-out 让鼠标显示“缩小”图标提示可点击关闭 -->
     <div onclick="{{ closeLightbox }}" style="position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; padding:5vh 4vw; background:rgba(28,46,64,.82); backdrop-filter:blur(8px); cursor:zoom-out; animation:twinkleP .01s;">
+      <!-- 弹窗内容容器：放大图和说明文字 -->
       <div style="position:relative; max-width:90vw; max-height:90vh; display:flex; flex-direction:column; align-items:center;">
+        <!-- 大图本身：src 默认是一张1x1的透明占位图(base64编码的gif)，真正的图片地址由底部脚本在打开弹窗时通过 JS 动态设置(im.src=...) -->
         <img id="rp-lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="{{ lightboxCap }}" style="max-width:90vw; max-height:80vh; object-fit:contain; border-radius:18px; box-shadow:0 30px 80px rgba(0,0,0,.5); border:5px solid rgba(255,255,255,.9);">
+        <!-- 大图下方的标题/英文小字说明 -->
         <div style="margin-top:16px; text-align:center; color:#fff;">
           <div style="font-family:'ZCOOL KuaiLe',cursive; font-size:20px;">{{ lightboxCap }}</div>
           <div style="font-family:'Fredoka',sans-serif; font-size:12px; letter-spacing:1px; opacity:.8;">{{ lightboxEn }}</div>
         </div>
       </div>
+      <!-- 右上角圆形关闭按钮“✕”，position:fixed 让它始终固定在屏幕角落而不是跟着内容滚动 -->
       <button onclick="{{ closeLightbox }}" style="position:fixed; top:24px; right:28px; width:46px; height:46px; border:none; border-radius:50%; background:rgba(255,255,255,.9); color:var(--ink); font-size:22px; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,.3);">✕</button>
     </div>
   </sc-if>
 
+<!-- 最外层 div#rainple-root 结束 -->
 </div>
+<!-- 自定义组件 <x-dc> 结束 -->
 </x-dc>
+<!-- 下面这个特殊类型的 script 标签（type 为 text/x-dc）不是普通脚本，浏览器不会直接执行它；
+     dc-runtime.js 会读取里面的代码、配合 data-props 里描述的可编辑参数(theme/particleStyle/showParticles)，
+     编译成一个真正驱动上面页面的"组件"。data-props 里的 JSON 是给可视化编辑器用的"参数说明书"（主题三选一、粒子样式三选一、是否显示粒子的开关）-->
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:820},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;晴空&quot;,&quot;暮色&quot;,&quot;竹林&quot;],&quot;default&quot;:&quot;晴空&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;particleStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;星屑&quot;,&quot;雪花&quot;,&quot;气泡&quot;],&quot;default&quot;:&quot;星屑&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showParticles&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+// 定义这个页面组件类，继承自运行时提供的 DCLogic 基类（拿到状态管理、生命周期等能力）
 class Component extends DCLogic {
+  // state 是组件自己的"私有数据"：灯箱是否打开、当前显示哪张图、留言是否已发送
+  // 这些值一变化，画面上引用 {{ lightboxOpen }} 等的地方就会自动刷新
   state = { lightboxOpen:false, lightboxSrc:'', lightboxCap:'', lightboxEn:'', msgSent:false };
 
+  // renderVals()：每次需要重新渲染页面时调用，返回一个对象，
+  // 对象里的每个字段名（如 year、facts、palette...）对应页面里 {{ 字段名 }} 引用的数据来源
   renderVals(){
+    // 读取 index.astro 注入到 <head> 里的 window.__OC_DATA（画作/毛照的图片列表，来自 public/oc 文件夹）
     const D=(typeof window!=='undefined'&&window.__OC_DATA)||{};
+    // gF/gM = 画作的"精选"和"更多"列表；fF/fM = 毛照的"精选"和"更多"列表
     const gF=(D.gallery&&D.gallery.featured)||[], gM=(D.gallery&&D.gallery.more)||[];
     const fF=(D.fursuit&&D.fursuit.featured)||[], fM=(D.fursuit&&D.fursuit.more)||[];
     return {
+      // {{ year }} 用到的当前年份，自动计算，不用每年手动改
       year: new Date().getFullYear(),
+      // facts 数组 → 驱动 ABOUT 区那张"个人资料卡"逐行列表（中文名/英文名/物种...）
       facts: [
         { k:'中文名 · Name', v:'雨枫' },
         { k:'英文名 · Latin', v:'rainple' },
@@ -390,12 +523,14 @@ class Component extends DCLogic {
         { k:'生日 · Birthday', v:'✎ 点击编辑' },
         { k:'喜欢 · Likes', v:'温泉 · 烤红薯' },
       ],
+      // palette 数组 → 驱动 DESIGN 区的4张配色卡片（色块+名称+色值+用途）
       palette: [
         { name:'天蓝 Sky', hex:'#A9D9F5', use:'主体绒毛 / fur' },
         { name:'雪白 Snow', hex:'#FFFFFF', use:'胸口与尾尖 / chest & tips' },
         { name:'奶黄 Cream', hex:'#F5D98A', use:'龙角与肉垫 / horns & paws' },
         { name:'腮红 Coral', hex:'#F3805A', use:'脸颊与点缀 / blush & accent' },
       ],
+      // features 数组 → 驱动 DESIGN 区"外观特征"的6条卡片
       features: [
         { t:'奶黄龙角', d:'额前两对小巧的龙角，奶黄渐变。', dot:'#F5D98A', glow:'rgba(245,217,138,.3)' },
         { t:'闪电耳纹', d:'耳侧一道金色闪电，情绪激动时会亮。', dot:'#F0C152', glow:'rgba(240,193,82,.3)' },
@@ -404,6 +539,7 @@ class Component extends DCLogic {
         { t:'漩涡纹路', d:'四肢与身侧的奶黄漩涡花纹。', dot:'#EFD08A', glow:'rgba(239,208,138,.3)' },
         { t:'珊瑚腮红', d:'圆圆的脸颊两团珊瑚色腮红。', dot:'#F3805A', glow:'rgba(243,128,90,.28)' },
       ],
+      // traits 数组 → 驱动 DESIGN 区"性格"标签云的6个小标签
       traits: [
         { zh:'软萌', en:'SOFT' },
         { zh:'好奇', en:'CURIOUS' },
@@ -412,10 +548,13 @@ class Component extends DCLogic {
         { zh:'爱泡澡', en:'BATH LOVER' },
         { zh:'黏人', en:'CLINGY' },
       ],
+      // 把上面算好的画作"精选/更多"列表，以及"是否还有更多"的布尔值，和按钮文字（如"查看全部12项→"）传给页面
       galleryFeatured: gF, galleryMore: gM, galleryHasMore: gM.length>0,
       galleryTotalLabel: '查看全部 '+(gF.length+gM.length)+' 项 →',
+      // 同理，毛照的"精选/更多"列表
       fursuitFeatured: fF, fursuitMore: fM, fursuitHasMore: fM.length>0,
       furTotalLabel: '查看全部 '+(fF.length+fM.length)+' 项 →',
+      // socials 数组 → 驱动 SOCIAL 区每一张社交账号卡片（名称/账号/链接/配色/图标）
       socials: [
         { name:'Bilibili', handle:'@雨枫rainple', url:'https://space.bilibili.com/3494354408704722', color:'#FB7299', iconSrc:'/oc/icons/bilibili.svg' },
         { name:'QQ', handle:'@雨枫rainple', url:'#', color:'#EAF3FF', iconSrc:'/oc/icons/qq.svg' },
@@ -423,37 +562,53 @@ class Component extends DCLogic {
         { name:'GitHub', handle:'@juyanlanfeng', url:'https://github.com/juyanlanfeng', color:'#181717', iconSrc:'/oc/icons/github.svg', tag:'龙会敲代码嗷~' },
         { name:'X', handle:'@保密', url:'https://www.bilibili.com/video/BV1GJ411x7h7/?spm_id_from=333.337.search-card.all.click&vd_source=4d62d1db2ffbd015fc2cf4d93ff88074', color:'#000000', iconSrc:'/oc/icons/x.svg' },
       ],
+      // 把组件的私有状态(state)原样传给页面，{{ lightboxOpen }} 等占位符就是读这里的值
       lightboxOpen: this.state.lightboxOpen,
       lightboxSrc: this.state.lightboxSrc,
       lightboxCap: this.state.lightboxCap,
       lightboxEn: this.state.lightboxEn,
       msgSent: this.state.msgSent,
+      // openLightbox：点击某张照片时触发（绑在 figure 的 onclick 上）。
+      // e.currentTarget 就是被点的那个 <figure>，从它的 data-src/data-cap/data-en 属性里取出图片信息存进 state，
+      // 同时把 lightboxOpen 设为 true（触发弹窗显示），并禁止页面背景滚动
       openLightbox: (e)=>{ const el=e.currentTarget; this.setState({ lightboxOpen:true, lightboxSrc:el.dataset.src, lightboxCap:el.dataset.cap, lightboxEn:el.dataset.en }); document.body.style.overflow='hidden'; },
+      // closeLightbox：点击遮罩或✕按钮时触发，关闭弹窗并恢复页面可以滚动；
+      // e.stopPropagation() 防止点击✕按钮的事件“穿透”触发外层遮罩的点击（避免重复处理）
       closeLightbox: (e)=>{ if(e){ e.stopPropagation(); } this.setState({ lightboxOpen:false }); document.body.style.overflow=''; },
+      // submitMsg：留言表单提交时触发。e.preventDefault() 阻止表单默认的“刷新页面”行为，
+      // 改为把 msgSent 设为 true 显示“收到啦”提示，清空表单，并用 setTimeout 在4秒后自动把提示隐藏掉
       submitMsg: (e)=>{ e.preventDefault(); this.setState({ msgSent:true }); e.target.reset && e.target.reset(); clearTimeout(this._mt); this._mt=setTimeout(()=>this.setState({ msgSent:false }), 4000); },
     };
   }
 
+  // componentDidMount：页面刚加载完成、第一次显示出来时，只执行一次的初始化代码
   componentDidMount(){
-    this.applyTheme();
-    this.buildParticles();
-    this.initReveal();
-    this.initCardReveal();
-    this.initNav();
-    this.initParallax();
+    this.applyTheme();      // 应用当前选中的主题配色（晴空/暮色/竹林）
+    this.buildParticles();  // 生成背景粒子特效（星屑/雪花/气泡）
+    this.initReveal();      // 启动"文字滚动淡入"效果监听
+    this.initCardReveal();  // 启动"卡片滚动淡入"效果监听
+    this.initNav();         // 启动"滚动后导航栏变白"效果监听
+    this.initParallax();    // 启动首屏背景圆形光斑的视差滚动效果
+    // 监听键盘事件：按下 Esc 键时，如果灯箱弹窗正开着，就关闭它
     this._key = (e)=>{ if(e.key==='Escape' && this.state.lightboxOpen){ this.setState({lightboxOpen:false}); document.body.style.overflow=''; } };
     window.addEventListener('keydown', this._key);
+    // 鼠标拖尾特效：鼠标移动时（节流到每55毫秒最多生成一个），在鼠标位置创建一个随机的"✿"或"✦"小字符，
+    // 设置好位置/大小/颜色后用 pawFade 动画播放淡出消失，动画播完(900ms)就把这个临时元素删掉，避免内存堆积
     this._trail = (e)=>{ const now=Date.now(); if(now-(this._tl||0)<55) return; this._tl=now; const s=document.createElement('div'); s.textContent= Math.random()>.72 ? '✿' : '✦'; s.style.cssText='position:fixed; left:'+e.clientX+'px; top:'+e.clientY+'px; z-index:300; pointer-events:none; transform:translate(-50%,-50%); font-size:'+(10+Math.random()*10)+'px; color:'+(Math.random()>.5?'#f5d98a':'#7fc6f0')+'; text-shadow:0 0 6px rgba(255,255,255,.7);'; s.style.animation='pawFade .9s ease-out forwards'; document.body.appendChild(s); setTimeout(()=>s.remove(),900); };
     window.addEventListener('pointermove', this._trail, { passive:true });
   }
+  // componentDidUpdate：每次"可编辑参数"(theme/particleStyle/showParticles)发生变化后被调用，
+  // prev 是变化前的旧参数值，用来判断到底是哪个参数变了，只重新执行必要的部分（避免不必要的重复渲染）
   componentDidUpdate(prev){
     if(prev.particleStyle!==this.props.particleStyle || prev.showParticles!==this.props.showParticles){ this.buildParticles(); }
     if(prev.theme!==this.props.theme){ this.applyTheme(); }
+    // 如果灯箱是打开状态且已经有图片地址，就把真正的图片地址设置到 <img id="rp-lightbox-img"> 上（替换掉默认的透明占位图）
     if(this.state.lightboxOpen && this.state.lightboxSrc){
       const im=document.getElementById('rp-lightbox-img');
       if(im && im.getAttribute('src')!==this.state.lightboxSrc){ im.src=this.state.lightboxSrc; }
     }
   }
+  // componentWillUnmount：组件被销毁时清理掉之前注册的所有事件监听和观察器，避免内存泄漏
   componentWillUnmount(){
     window.removeEventListener('keydown', this._key);
     window.removeEventListener('pointermove', this._trail);
@@ -465,8 +620,12 @@ class Component extends DCLogic {
     this._cio && this._cio.disconnect();
   }
 
+  // root()：一个小工具方法，随时取到页面最外层容器 div#rainple-root，后面好几个方法都靠它来查找子元素
   root(){ return document.getElementById('rainple-root'); }
 
+  // applyTheme：根据可编辑参数 this.props.theme（晴空/暮色/竹林）切换整站配色，
+  // 做法是直接修改 div#rainple-root 上那几个 CSS 变量(--hero-grad/--accent/--sky-deep)的值，
+  // 因为前面所有用到 var(--accent) 等变量的元素样式会自动跟着联动变化
   applyTheme(){
     const r=this.root(); if(!r) return;
     const t=this.props.theme || '晴空';
@@ -481,13 +640,15 @@ class Component extends DCLogic {
     r.style.setProperty('--sky-deep', c.deep);
   }
 
+  // buildParticles：往首屏的 #particle-layer 容器里动态生成26个粒子小元素(雪花/气泡/星屑三选一)，
+  // 每个粒子的位置(left)、大小(size)、动画时长(dur)、起始延迟(delay)都用随机数错开，避免所有粒子同步移动显得呆板
   buildParticles(){
     const layer = this.root() && this.root().querySelector('#particle-layer');
     if(!layer) return;
-    layer.innerHTML='';
-    if(this.props.showParticles===false) return;
-    const style = this.props.particleStyle || '星屑';
-    const n = 26;
+    layer.innerHTML='';                              // 先清空旧粒子，避免切换样式后越堆越多
+    if(this.props.showParticles===false) return;      // 用户在编辑器里关闭了"显示粒子"开关，就不生成
+    const style = this.props.particleStyle || '星屑';  // 取当前选择的粒子样式
+    const n = 26;                                      // 粒子总数量
     for(let i=0;i<n;i++){
       const d=document.createElement('div');
       const left=Math.random()*100;
@@ -498,6 +659,7 @@ class Component extends DCLogic {
       d.style.left=left+'%';
       d.style.pointerEvents='none';
       if(style==='雪花'){
+        // 雪花：从顶部(-5%)开始，白色小圆点，配合 fallP 动画往下飘落
         d.style.top='-5%';
         d.style.width=size+'px'; d.style.height=size+'px';
         d.style.borderRadius='50%';
@@ -506,6 +668,7 @@ class Component extends DCLogic {
         d.style.opacity=String(.5+Math.random()*.5);
         d.style.animation=`fallP ${dur}s linear ${delay}s infinite`;
       } else if(style==='气泡'){
+        // 气泡：从底部(-5%)开始，半透明圆形带渐变高光，配合 riseP 动画往上飘升
         d.style.bottom='-5%';
         d.style.width=size*1.4+'px'; d.style.height=size*1.4+'px';
         d.style.borderRadius='50%';
@@ -513,7 +676,7 @@ class Component extends DCLogic {
         d.style.border='1px solid rgba(255,255,255,.5)';
         d.style.opacity=String(.4+Math.random()*.4);
         d.style.animation=`riseP ${dur}s linear ${delay}s infinite`;
-      } else { // 星屑
+      } else { // 星屑：直接用"✦"文字符号代替图形，随机分布在屏幕各处，配合 twinkleP 动画忽明忽暗闪烁
         d.style.top=Math.random()*100+'%';
         d.style.color= Math.random()>.5 ? '#f5d98a' : '#ffffff';
         d.style.fontSize=(size+4)+'px';
@@ -521,35 +684,44 @@ class Component extends DCLogic {
         d.textContent='✦';
         d.style.animation=`twinkleP ${2+Math.random()*3}s ease-in-out ${delay}s infinite`;
       }
-      layer.appendChild(d);
+      layer.appendChild(d);  // 把这个粒子元素真正插入到页面里，变成看得见的一个点
     }
   }
 
+  // initReveal：让所有带 data-reveal 属性的元素（标题、段落、按钮等）实现"滚动到视野内才淡入显示"的效果
   initReveal(){
+    // 第一步：找到所有 data-reveal 元素，先把它们统一设成"透明+向下偏移"的隐藏状态，并记录好过渡动画；
+    // el.dataset._d 是按顺序错开的延迟时间（每4个循环一轮，0/90/180/270毫秒错开出现），形成依次浮现的节奏感
     const els = this.root().querySelectorAll('[data-reveal]');
     els.forEach((el,i)=>{ el.style.opacity='0'; el.style.transform='translateY(64px) scale(.94)'; el.style.transition='opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1)'; el.dataset._d=(i%4)*90; });
+    // reveal：把某个元素恢复成正常显示（透明度1、位置归零），并打上"已显示过"标记防止重复触发
     const reveal=(el)=>{ if(el.dataset._shown) return; el.dataset._shown='1'; setTimeout(()=>{ el.style.opacity='1'; el.style.transform=''; }, (el.dataset._d|0)); };
-    // Reveal only what's already within the viewport on load.
+    // 页面刚加载时，先检查哪些元素已经在当前屏幕可见范围内（不用等用户滚动），直接显示它们
     const checkInView=()=>{
       const h=window.innerHeight||800;
       els.forEach(el=>{ const r=el.getBoundingClientRect(); if(r.top < h*0.88 && r.bottom > 0){ reveal(el); } });
     };
     checkInView();
-    // IntersectionObserver triggers the rest as they scroll into view.
+    // 剩下还没显示的元素，用 IntersectionObserver（浏览器原生的"元素是否进入可视区域"监听器）来监听，
+    // 用户往下滚动、元素进入视野时才触发淡入，触发一次后就取消监听（unobserve），不用一直盯着
     try{
       this._io = new IntersectionObserver((entries)=>{
         entries.forEach((en)=>{ if(en.isIntersecting){ reveal(en.target); this._io.unobserve(en.target); } });
       }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
       els.forEach(el=>{ if(!el.dataset._shown) this._io.observe(el); });
     }catch(e){}
+    // 保存这个检查函数的引用，并监听 scroll 事件作为兜底（某些浏览器对 IntersectionObserver 支持不完美时仍能工作）
     this._revealScroll=checkInView; window.addEventListener('scroll', checkInView, { passive:true });
   }
 
+  // initCardReveal：和上面 initReveal 类似，但专门用于卡片类元素（配色卡/特征卡/照片墙等 data-card / data-card-fig），
+  // 多了一个"按所在父容器分组、组内依次错开延迟"的逻辑，让同一组卡片像多米诺骨牌一样依次浮现
   initCardReveal(){
     const root = this.root(); if(!root) return;
     const cards = [...root.querySelectorAll('[data-card], [data-card-fig]')];
     if(!cards.length) return;
-    // Group by parent so stagger resets per section
+    // 按各自的父容器分组（比如"4张配色卡"算一组，"6条特征卡"算另一组），这样每组内部重新从0开始计数错开延迟，
+    // 而不是全站几十张卡片从头排到尾，否则最后一张卡片要等很久才浮现
     const groups = new Map();
     cards.forEach(el=>{
       const p = el.parentElement;
@@ -557,7 +729,7 @@ class Component extends DCLogic {
       groups.get(p).push(el);
     });
     groups.forEach(list => list.forEach((el,i)=>{ el.dataset._cidx = String(i); }));
-    // Initial hidden state
+    // 初始隐藏状态：照片卡片(data-card-fig)额外加了模糊滤镜(blur)，从"模糊+缩小"变清晰，效果比普通卡片更明显
     cards.forEach(el=>{
       const isFig = el.hasAttribute('data-card-fig');
       if(isFig){
@@ -570,6 +742,7 @@ class Component extends DCLogic {
         el.style.transition = 'opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), box-shadow .25s ease';
       }
     });
+    // reveal：恢复某张卡片的正常显示，延迟时间按它在组内的序号(idx)递增，但最多只错开到第9张（避免延迟过久）
     const reveal = (el)=>{
       if(el.dataset._cshown) return;
       el.dataset._cshown = '1';
@@ -581,12 +754,13 @@ class Component extends DCLogic {
         el.style.transform = '';
       }, Math.min(idx, 9) * 90);
     };
+    // 同 initReveal 的思路：先显示页面加载时已在视野内的卡片，剩下的等滚动到附近再用 IntersectionObserver 触发
     const checkInView = ()=>{
       const h = window.innerHeight||800;
       cards.forEach(el=>{
         if(el.dataset._cshown) return;
         const r = el.getBoundingClientRect();
-        // only reveal cards already within the viewport (above-the-fold on load)
+        // 只显示已经进入（或部分进入）当前屏幕范围的卡片
         if(r.top < h*0.88 && r.bottom > 0) reveal(el);
       });
     };
@@ -601,6 +775,8 @@ class Component extends DCLogic {
     window.addEventListener('scroll', checkInView, { passive:true });
   }
 
+  // initNav：监听页面滚动，滚动超过40px时导航栏从"透明"变成"白色半透明+阴影+变矮"，营造滚动后导航栏"收紧"的视觉效果；
+  // 滚回顶部时（scrollY<=40）恢复成最初的透明、高一点的状态
   initNav(){
     const nav=document.getElementById('rp-nav'); if(!nav) return;
     const onScroll=()=>{
@@ -610,6 +786,9 @@ class Component extends DCLogic {
     this._navScroll=onScroll; window.addEventListener('scroll', onScroll); onScroll();
   }
 
+  // initParallax：制造"视差滚动"效果——首屏背景的两个圆形光斑(#rp-blob1/#rp-blob2)在滚动时
+  // 以比页面慢/快一点的速度移动(0.12倍、-0.06倍)，和正常内容的滚动速度不同步，产生立体的纵深感；
+  // 滚动超过一屏高度后(y>window.innerHeight)就不再计算，因为首屏已经滚出视野，没必要继续耗性能
   initParallax(){
     const img=this.root().querySelector('#rp-hero-img');
     const b1=document.getElementById('rp-blob1');
@@ -623,6 +802,33 @@ class Component extends DCLogic {
     this._scroll=onScroll; window.addEventListener('scroll', onScroll);
   }
 }
+</script>
+
+<!-- 图片保护：禁右键、禁拖拽、透明遮罩（水印由 scripts/watermark.js 在构建时添加） -->
+<style>
+  img, video {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
+  /* 画廊卡片与灯箱大图：图片本身不响应鼠标，右键/拖拽落在容器上 */
+  figure[data-card-fig] img,
+  #rp-lightbox-img {
+    pointer-events: none;
+  }
+  /* 卡片再盖一层透明遮罩 */
+  figure[data-card-fig]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+</style>
+<script>
+  document.addEventListener("contextmenu", function (e) {
+    if (e.target.closest && e.target.closest("img, video, figure")) e.preventDefault();
+  });
+  document.addEventListener("dragstart", function (e) {
+    if (e.target.closest && e.target.closest("img, video")) e.preventDefault();
+  });
 </script>
 
 </body>
