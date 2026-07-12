@@ -3,22 +3,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="dc-runtime.js"></script>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap">
 </head>
 <body>
 <x-dc>
 <helmet>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 
   <style>
+    /* 本地字体声明：Fredoka(英文标题)与 ZCOOL KuaiLe(中文毛笔标题)存放在 public/oc/fonts/，随站点一起部署，无需联网加载 */
+    @font-face{ font-family:'Fredoka'; font-style:normal; font-weight:400; font-display:swap; src:url(/oc/fonts/fredoka-400.woff2) format('woff2'); }
+    @font-face{ font-family:'Fredoka'; font-style:normal; font-weight:500; font-display:swap; src:url(/oc/fonts/fredoka-500.woff2) format('woff2'); }
+    @font-face{ font-family:'Fredoka'; font-style:normal; font-weight:600; font-display:swap; src:url(/oc/fonts/fredoka-600.woff2) format('woff2'); }
+    @font-face{ font-family:'Fredoka'; font-style:normal; font-weight:700; font-display:swap; src:url(/oc/fonts/fredoka-700.woff2) format('woff2'); }
+    @font-face{ font-family:'ZCOOL KuaiLe'; font-style:normal; font-weight:400; font-display:swap; src:url(/oc/fonts/zcool-kuaila-400.woff2) format('woff2'); }
     /* * 是“所有元素”的意思：让每个元素的 padding/border 都算在宽高内，方便布局计算 */
     *{ box-sizing:border-box; }
     /* <html> 整个文档：点击锚点(#xxx)跳转时平滑滚动，而不是瞬间跳转 */
     html{ scroll-behavior:smooth; }
     /* <body> 整个页面主体：去掉默认外边距；统一字体为思源黑体；文字颜色深蓝灰；背景浅蓝白；隐藏横向滚动条；字体抗锯齿更清晰 */
-    body{ margin:0; font-family:"Noto Sans SC",system-ui,sans-serif; color:#33485c; background:#f3fafe; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    body{ margin:0; font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif; color:#33485c; background:#f3fafe; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
     /* 所有 <img> 图片：默认按块级显示，宽度不超过父容器（防止图片溢出撑破布局） */
     img{ display:block; max-width:100%; }
     /* 所有 <a> 链接：文字颜色继承父元素（不用浏览器默认蓝色），并去掉默认下划线 */
@@ -67,7 +69,7 @@
     /* 第4、8、12...张照片：固定顺时针旋转 2.5 度 */
     #gallery figure:nth-of-type(4n),   #fursuit figure:nth-of-type(4n){ transform:rotate(2.5deg); }
     /* 鼠标悬停在任意一张照片上时：摆正角度、向上抬起并放大一点，同时阴影变深，层级提到最上面 */
-    #gallery figure:hover, #fursuit figure:hover{ transform:rotate(0) translateY(-7px) scale(1.025) !important; z-index:5; box-shadow:0 24px 50px rgba(76,130,170,.3) !important; }
+    #gallery figure:hover, #fursuit figure:hover{ transform:rotate(0) translateY(-7px) scale(1.025) !important; z-index:5; box-shadow:0 24px 50px rgba(170, 125, 76, 0.28) !important; }
     /* 用 ::before 在每张照片顶部“画”出一条像纸质相册里的胶带贴纸（黄色半透明矩形+轻微旋转） */
     #gallery figure::before, #fursuit figure::before{ content:''; position:absolute; top:9px; left:50%; width:78px; height:22px; transform:translateX(-50%) rotate(-4deg); background:rgba(245,217,138,.5); box-shadow:0 2px 6px rgba(0,0,0,.08); z-index:4; pointer-events:none; }
     /* 偶数序号照片的胶带：换成蓝色、反方向旋转，让胶带颜色和方向交替出现 */
@@ -82,7 +84,7 @@
 <!-- 整个页面的最外层容器 div，id="rainple-root"；style 里一长串 --xxx 是“CSS变量”，
      相当于先定义好一批可复用的颜色（天蓝/奶黄/珊瑚色等），后面元素用 var(--xxx) 来引用，
      这样换主题时只改这里几个变量，全站颜色跟着变。position/width/overflow/color 是给这个容器本身设置定位、宽度、裁切溢出内容、默认文字颜色 -->
-<div id="rainple-root" data-screen-label="雨枫 rainple 主页" style="--sky:#a9d9f5; --sky2:#cdeafb; --sky-deep:#6fb8e8; --cream:#f5d98a; --cream2:#fbe6bd; --coral:#f3805a; --ink:#33485c; --ink-soft:#62788b; --paper:#f3fafe; --accent:#f3805a; --hero-grad:linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%); position:relative; width:100%; overflow:hidden; color:var(--ink);">
+<div id="rainple-root" data-screen-label="雨枫 rainple 主页" style="--sky:#a9d9f5; --sky2:#cdeafb; --sky-deep:#6fb8e8; --cream:#f5d98a; --cream2:#fbe6bd; --coral:#f3805a; --ink:#33485c; --ink-soft:#62788b; --paper:#f3fafe; --accent:#00b3ff; --hero-grad:linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%); position:relative; width:100%; overflow:hidden; color:var(--ink);">
 
   <!-- ===== NAV：顶部导航栏区域 ===== -->
   <!-- <nav> 导航栏：固定贴在屏幕顶部(position:fixed top:0)，左右贴边(left/right:0)，
@@ -125,9 +127,7 @@
     <div style="position:absolute; inset:0; z-index:3; pointer-events:none;">
 
       <!-- 漂浮气泡①“会喷火（并不）”：奶黄色圆角小标签，定位在右侧偏上，wobble 动画让它轻轻摇摆 -->
-      <span style="position:absolute; top:32%; right:4%; padding:8px 15px; border-radius:14px; background:var(--cream); box-shadow:0 8px 20px rgba(245,217,138,.45); font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:#7a5a1d; animation:wobble 5s ease-in-out .5s infinite;">会喷火（并不）</span>
-      <!-- 漂浮气泡②“⚡耳朵会发光”：白色圆角小标签，定位在左侧偏下，延迟0.9秒开始摇摆，制造错落感 -->
-      <span style="position:absolute; bottom:21%; left:6%; padding:8px 15px; border-radius:14px; background:#fff; box-shadow:0 8px 20px rgba(76,130,170,.18); font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:var(--sky-deep); animation:wobble 4.6s ease-in-out .9s infinite;">⚡ 耳朵会发光</span>
+      <span style="position:absolute; top:32%; right:4%; padding:8px 15px; border-radius:14px; background:var(--cream); box-shadow:0 8px 20px rgba(245,217,138,.45); font-family:'ZCOOL KuaiLe',cursive; font-size:16px; color:#7a5a1d; animation:wobble 5s ease-in-out .5s infinite;">会咬人（bushi）</span>
     </div>
 
     <!-- 首屏主内容容器：用 grid 网格布局分成左右两列（左文字 1份 : 右图片 1.08份），居中限宽1240px -->
@@ -135,13 +135,13 @@
       <!-- 左列：文字介绍区 -->
       <div>
         <!-- 小圆角标签“欢迎光临我的小窝”：data-reveal 不是标准属性，是自定义运行时用来标记“滚动进入视口时要淡入显示”的元素 -->
-        <div data-reveal="" style="display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px; background:rgba(255,255,255,.7); backdrop-filter:blur(6px); font-family:'Fredoka',sans-serif; font-size:12px; font-weight:600; letter-spacing:3px; color:var(--sky-deep); box-shadow:0 4px 14px rgba(111,184,232,.18);">✦ 欢迎光临我的小窝 · welcome to my den</div>
+        <div data-reveal="" style="display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px; background:rgba(255,255,255,.7); backdrop-filter:blur(6px); font-family:'Fredoka',sans-serif; font-size:12px; font-weight:600; letter-spacing:3px; color:var(--sky-deep); box-shadow:0 4px 14px rgba(111,184,232,.18);">✦ 欢迎光临我的小窝 · welcome!</div>
         <!-- <h1> 全站最大的一级标题“雨枫”：字号用 clamp() 随屏幕宽度在72px~172px间自适应缩放 -->
         <h1 data-reveal="" style="margin:22px 0 0; font-family:'ZCOOL KuaiLe',cursive; font-size:clamp(72px,12vw,172px); line-height:.9; color:var(--ink); text-shadow:0 6px 0 rgba(255,255,255,.6);">雨枫</h1>
         <!-- 英文名“rainple”副标题 -->
         <div data-reveal="" style="margin:6px 0 0; font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(26px,4.4vw,52px); letter-spacing:8px; color:var(--sky-deep);">rainple</div>
         <!-- 自我介绍段落 <p>：中文正文 + 换行 <br> + 英文小字版本 -->
-        <p data-reveal="" style="margin:26px 0 0; max-width:440px; font-size:clamp(15px,1.5vw,18px); line-height:1.9; color:var(--ink-soft);">嗨！我是雨枫～ 一只天蓝色的小狼龙。爱泡温泉、爱啃烤红薯，心情好的时候，耳朵上的闪电会偷偷发光⚡<br><span style="font-family:'Fredoka',sans-serif; font-size:14px; letter-spacing:.3px;">Hi! I'm rainple — a sky-blue wolfdragon who runs on hot springs, sweet potatoes, and a little bit of lightning. ⚡</span></p>
+        <p data-reveal="" style="margin:26px 0 0; max-width:440px; font-size:clamp(15px,1.5vw,18px); line-height:1.9; color:var(--ink-soft);">嗨！这里是雨枫～ 一只天蓝色的小狼龙。<br><span style="font-family:'Fredoka',sans-serif; font-size:14px; letter-spacing:.3px;">Hi! I'm rainple — a sky-blue wolfdragon.</span></p>
         <!-- 两个按钮的容器：换行自动排列(flex-wrap)，按钮间留间距 -->
         <div data-reveal="" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:34px;">
           <!-- 主按钮“看我长啥样”：橙色实心，跳到 #design 设定区 -->
@@ -165,7 +165,7 @@
         </div>
 
         <!-- 右下角圆形徽章“★ YUFENG”：奶黄色圆形，spinSlow 动画让它持续缓慢旋转 -->
-        <div style="position:absolute; bottom:-18px; right:-18px; width:74px; height:74px; border-radius:50%; background:var(--cream); display:flex; align-items:center; justify-content:center; font-family:'Fredoka',sans-serif; font-weight:700; font-size:12px; color:#7a5a1d; box-shadow:0 10px 22px rgba(245,217,138,.5); animation:spinSlow 18s linear infinite;"><span style="display:block; text-align:center; line-height:1.2;">★<br>YUFENG</span></div>
+        <div style="position:absolute; bottom:-18px; right:-18px; width:74px; height:74px; border-radius:50%; background:var(--cream); display:flex; align-items:center; justify-content:center; font-family:'Fredoka',sans-serif; font-weight:700; font-size:12px; color:#7a5a1d; box-shadow:0 10px 22px rgba(245,217,138,.5); animation:spinSlow 18s linear infinite;"><span style="display:block; text-align:center; line-height:1.2;">★<br>雨枫</span></div>
       </div>
     </div>
 
@@ -179,12 +179,13 @@
 
   <!-- ===== MARQUEE：橙色跑马灯横条 ===== -->
   <!-- aria-hidden="true" 表示对屏幕阅读器隐藏（纯装饰，不是正文内容）；整体被旋转-1.5度并放大，制造“贴纸”斜放的效果 -->
-  <div aria-hidden="true" style="overflow:hidden; background:var(--accent); transform:rotate(-1.5deg) scale(1.04); margin:26px -12px; padding:13px 0; box-shadow:0 12px 30px rgba(243,128,90,.28);">
+  <div aria-hidden="true" style="overflow:hidden; background:var(--accent); transform:rotate(-1.5deg) scale(1.04); margin:26px -12px; padding:13px 0; box-shadow:0 12px 30px #5ac3f347;">
     <!-- 文字滚动轨道：宽度按内容自适应(width:max-content)，配合 marquee 动画持续向左滚动，循环26秒一轮 -->
     <div style="display:flex; width:max-content; white-space:nowrap; animation:marquee 26s linear infinite; font-family:'ZCOOL KuaiLe',cursive; font-size:21px; color:#fff; letter-spacing:1px;">
       <!-- 同样的文字重复写了两遍首尾相接，这样滚动到第二份时刚好能无缝接上第一份，看起来像无限循环 -->
-      <span>雨枫 ✦ rainple ✦ 软萌狼龙 ✦ 会喷火（并不） ✦ 耳朵会发光⚡ ✦ 来找我玩呀 ✦&nbsp;</span>
-      <span>雨枫 ✦ rainple ✦ 软萌狼龙 ✦ 会喷火（并不） ✦ 耳朵会发光⚡ ✦ 来找我玩呀 ✦&nbsp;</span>
+      <span>雨枫 ✦ rainple ✦ 小狼龙 ✦ 会咬人（并不） ✦ 看起来不太聪明的样子 ✦&nbsp;</span>
+      <span>雨枫 ✦ rainple ✦ 小狼龙 ✦ 会咬人（并不） ✦ 看起来不太聪明的样子 ✦&nbsp;</span>
+      <span>雨枫 ✦ rainple ✦ 小狼龙 ✦ 会咬人（并不） ✦ 看起来不太聪明的样子 ✦&nbsp;</span>
     </div>
   </div>
 
@@ -388,27 +389,37 @@
       <div data-reveal="" style="margin-top:50px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:18px;">
         <!-- 循环渲染 {{ socials }} 数组（Bilibili/QQ/兽频道/GitHub/X 等账号，定义在文末脚本），每项叫做 s -->
         <sc-for list="{{ socials }}" as="s" hint-placeholder-count="5">
-          <!-- 整张卡片本身就是一个可点击的链接 <a>，target="_blank" 新开标签页，rel="noopener" 是安全写法（防止新页面反向操控本页） -->
-          <a data-card="" href="{{ s.url }}" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; padding:22px 24px; border-radius:20px; position:relative; background:#fff; box-shadow:0 12px 28px rgba(76,130,170,.12); transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-6px); box-shadow:0 22px 44px rgba(76,130,170,.22);">
-            <!-- 左侧图标方块：背景色取 s.color -->
-            <span style="flex:none; width:48px; height:48px; border-radius:14px; background:{{ s.color }}; display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);">
-              <!-- 条件①：如果数据里有 iconSrc（图标图片路径），就显示这张小图标 -->
-              <sc-if value="{{ s.iconSrc }}"><img src="{{ s.iconSrc }}" alt="{{ s.name }}" style="width:62%; height:62%; object-fit:contain; display:block;"></sc-if>
-              <!-- 条件②：如果数据里是 iconText（文字图标，比如“兽”字），就显示这个文字代替图片 -->
-              <sc-if value="{{ s.iconText }}"><span style="font-family:'ZCOOL KuaiLe',cursive; font-size:26px; line-height:1; color:{{ s.iconColor }};">{{ s.iconText }}</span></sc-if>
-            </span>
-            <!-- 中间文字：账号名称 + 账号ID，超长时用省略号截断(text-overflow:ellipsis) -->
-            <span style="min-width:0;">
-              <span style="display:block; font-weight:700; font-size:15px; color:var(--ink);">{{ s.name }}</span>
-              <span style="display:block; font-family:'Fredoka',sans-serif; font-size:12px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ s.handle }}</span>
-            </span>
-            <!-- 最右侧箭头“→”，margin-left:auto 把它推到卡片最右边 -->
-            <span style="margin-left:auto; color:var(--sky-deep); font-size:18px;">→</span>
-            <!-- 条件③：只有数据里设置了 s.tag（比如GitHub那条的“龙会敲代码嗷~”）时，才在卡片右上角显示这个小贴纸标签 -->
-            <sc-if value="{{ s.tag }}" hint-placeholder-val="{{ false }}">
-              <span style="position:absolute; top:-11px; right:-7px; transform:rotate(8deg); padding:4px 11px; border-radius:999px; background:var(--cream); color:#7a5a1d; font-family:'ZCOOL KuaiLe',cursive; font-size:12px; box-shadow:0 5px 12px rgba(245,217,138,.55);">{{ s.tag }}</span>
-            </sc-if>
-          </a>
+          <!-- 二维码卡片(isQr=true)：点击弹出居中浮层显示二维码图片 -->
+          <sc-if value="{{ s.isQr }}" hint-placeholder-val="{{ false }}">
+            <div data-card="" data-qr-src="{{ s.url }}" data-qr-name="{{ s.name }}" onclick="{{ openQr }}" style="display:flex; align-items:center; gap:16px; padding:22px 24px; border-radius:20px; position:relative; background:#fff; box-shadow:0 12px 28px rgba(76,130,170,.12); transition:transform .25s ease, box-shadow .25s ease; cursor:pointer;" style-hover="transform:translateY(-6px); box-shadow:0 22px 44px rgba(76,130,170,.22);">
+              <span style="flex:none; width:48px; height:48px; border-radius:14px; background:{{ s.color }}; display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);">
+                <sc-if value="{{ s.iconSrc }}"><img src="{{ s.iconSrc }}" alt="{{ s.name }}" style="width:62%; height:62%; object-fit:contain; display:block;"></sc-if>
+                <sc-if value="{{ s.iconText }}"><span style="font-family:'ZCOOL KuaiLe',cursive; font-size:26px; line-height:1; color:{{ s.iconColor }};">{{ s.iconText }}</span></sc-if>
+              </span>
+              <span style="min-width:0;">
+                <span style="display:block; font-weight:700; font-size:15px; color:var(--ink);">{{ s.name }}</span>
+                <span style="display:block; font-family:'Fredoka','Noto Sans SC',sans-serif; font-size:12px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ s.handle }}</span>
+              </span>
+              <span style="margin-left:auto; color:var(--sky-deep); font-size:18px;">→</span>
+            </div>
+          </sc-if>
+          <!-- 普通卡片(isQr=false)：可点击链接，新标签页打开 -->
+          <sc-if value="{{ !s.isQr }}" hint-placeholder-val="{{ false }}">
+            <a data-card="" href="{{ s.url }}" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; padding:22px 24px; border-radius:20px; position:relative; background:#fff; box-shadow:0 12px 28px rgba(76,130,170,.12); transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-6px); box-shadow:0 22px 44px rgba(76,130,170,.22);">
+              <span style="flex:none; width:48px; height:48px; border-radius:14px; background:{{ s.color }}; display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);">
+                <sc-if value="{{ s.iconSrc }}"><img src="{{ s.iconSrc }}" alt="{{ s.name }}" style="width:62%; height:62%; object-fit:contain; display:block;"></sc-if>
+                <sc-if value="{{ s.iconText }}"><span style="font-family:'ZCOOL KuaiLe',cursive; font-size:26px; line-height:1; color:{{ s.iconColor }};">{{ s.iconText }}</span></sc-if>
+              </span>
+              <span style="min-width:0;">
+                <span style="display:block; font-weight:700; font-size:15px; color:var(--ink);">{{ s.name }}</span>
+                <span style="display:block; font-family:'Fredoka','Noto Sans SC',sans-serif; font-size:12px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ s.handle }}</span>
+              </span>
+              <span style="margin-left:auto; color:var(--sky-deep); font-size:18px;">→</span>
+              <sc-if value="{{ s.tag }}" hint-placeholder-val="{{ false }}">
+                <span style="position:absolute; top:-11px; right:-7px; transform:rotate(8deg); padding:4px 11px; border-radius:999px; background:var(--cream); color:#7a5a1d; font-family:'ZCOOL KuaiLe',cursive; font-size:12px; box-shadow:0 5px 12px rgba(245,217,138,.55);">{{ s.tag }}</span>
+              </sc-if>
+            </a>
+          </sc-if>
         </sc-for>
       </div>
     </div>
@@ -489,6 +500,17 @@
     </div>
   </sc-if>
 
+  <!-- ===== QR 小窗：点击 QQ/微信等二维码卡片时弹出的居中弹窗 ===== -->
+  <sc-if value="{{ qrOpen }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ closeQr }}" style="position:fixed; inset:0; z-index:210; display:flex; align-items:center; justify-content:center; padding:5vh 5vw; background:rgba(28,46,64,.82); backdrop-filter:blur(8px); cursor:pointer;">
+      <div style="position:relative; max-width:min(86vw,340px); background:#fff; border-radius:20px; padding:20px 20px 16px; box-shadow:0 30px 80px rgba(0,0,0,.5); cursor:default;" onclick="event.stopPropagation()">
+        <button onclick="{{ closeQr }}" style="position:absolute; top:-14px; right:-14px; width:36px; height:36px; border:none; border-radius:50%; background:rgba(255,255,255,.95); color:var(--ink); font-size:18px; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.3); display:flex; align-items:center; justify-content:center;">✕</button>
+        <img src="{{ qrSrc }}" alt="{{ qrName }}" style="display:block; width:100%; max-height:70vh; object-fit:contain; border-radius:12px;">
+        <div style="margin-top:12px; text-align:center; font-size:14px; color:var(--ink);">{{ qrName }} · 长按识别二维码</div>
+      </div>
+    </div>
+  </sc-if>
+
 <!-- 最外层 div#rainple-root 结束 -->
 </div>
 <!-- 自定义组件 <x-dc> 结束 -->
@@ -501,7 +523,7 @@
 class Component extends DCLogic {
   // state 是组件自己的"私有数据"：灯箱是否打开、当前显示哪张图、留言是否已发送
   // 这些值一变化，画面上引用 {{ lightboxOpen }} 等的地方就会自动刷新
-  state = { lightboxOpen:false, lightboxSrc:'', lightboxCap:'', lightboxEn:'', msgSent:false };
+  state = { lightboxOpen:false, lightboxSrc:'', lightboxCap:'', lightboxEn:'', msgSent:false, qrOpen:false, qrSrc:'', qrName:'' };
 
   // renderVals()：每次需要重新渲染页面时调用，返回一个对象，
   // 对象里的每个字段名（如 year、facts、palette...）对应页面里 {{ 字段名 }} 引用的数据来源
@@ -555,12 +577,13 @@ class Component extends DCLogic {
       fursuitFeatured: fF, fursuitMore: fM, fursuitHasMore: fM.length>0,
       furTotalLabel: '查看全部 '+(fF.length+fM.length)+' 项 →',
       // socials 数组 → 驱动 SOCIAL 区每一张社交账号卡片（名称/账号/链接/配色/图标）
+      // isQr:true 的卡片，点击会弹小窗显示二维码(而非整页打开图片)
       socials: [
-        { name:'Bilibili', handle:'@雨枫rainple', url:'https://space.bilibili.com/3494354408704722', color:'#FB7299', iconSrc:'/oc/icons/bilibili.svg' },
-        { name:'QQ', handle:'@雨枫rainple', url:'#', color:'#EAF3FF', iconSrc:'/oc/icons/qq.svg' },
-        { name:'兽频道', handle:'fursuit.tv', url:'https://fursuit.tv/@juyanlanfeng', color:'#111111', iconText:'兽', iconColor:'#F5C846' },
-        { name:'GitHub', handle:'@juyanlanfeng', url:'https://github.com/juyanlanfeng', color:'#181717', iconSrc:'/oc/icons/github.svg', tag:'龙会敲代码嗷~' },
-        { name:'X', handle:'@保密', url:'https://www.bilibili.com/video/BV1GJ411x7h7/?spm_id_from=333.337.search-card.all.click&vd_source=4d62d1db2ffbd015fc2cf4d93ff88074', color:'#000000', iconSrc:'/oc/icons/x.svg' },
+        { name:'Bilibili', handle:'@雨枫rainple', url:'https://space.bilibili.com/3494354408704722', color:'#FB7299', iconSrc:'/oc/icons/bilibili.svg', isQr:false },
+        { name:'QQ', handle:'@雨枫rainple · 点开扫码加我', url:'/oc/icons/qq.jpg', color:'#EAF3FF', iconSrc:'/oc/icons/qq.svg', isQr:true },
+        { name:'兽频道', handle:'fursuit.tv', url:'https://fursuit.tv/@juyanlanfeng', color:'#111111', iconText:'兽', iconColor:'#F5C846', isQr:false },
+        { name:'GitHub', handle:'@juyanlanfeng', url:'https://github.com/juyanlanfeng', color:'#181717', iconSrc:'/oc/icons/github.svg', tag:'龙会敲代码嗷~', isQr:false },
+        { name:'X', handle:'@保密', url:'https://www.bilibili.com/video/BV1GJ411x7h7/?spm_id_from=333.337.search-card.all.click&vd_source=4d62d1db2ffbd015fc2cf4d93ff88074', color:'#000000', iconSrc:'/oc/icons/x.svg', isQr:false },
       ],
       // 把组件的私有状态(state)原样传给页面，{{ lightboxOpen }} 等占位符就是读这里的值
       lightboxOpen: this.state.lightboxOpen,
@@ -568,6 +591,12 @@ class Component extends DCLogic {
       lightboxCap: this.state.lightboxCap,
       lightboxEn: this.state.lightboxEn,
       msgSent: this.state.msgSent,
+      // 二维码小窗弹窗的状态与开关方法（QQ/微信等 isQr 卡片点击时触发）
+      qrOpen: this.state.qrOpen,
+      qrSrc: this.state.qrSrc,
+      qrName: this.state.qrName,
+      openQr: (e)=>{ e.preventDefault(); const el=e.currentTarget; this.setState({ qrOpen:true, qrSrc:el.dataset.qrSrc, qrName:el.dataset.qrName }); document.body.style.overflow='hidden'; },
+      closeQr: (e)=>{ if(e){ e.preventDefault(); e.stopPropagation(); } this.setState({ qrOpen:false }); document.body.style.overflow=''; },
       // openLightbox：点击某张照片时触发（绑在 figure 的 onclick 上）。
       // e.currentTarget 就是被点的那个 <figure>，从它的 data-src/data-cap/data-en 属性里取出图片信息存进 state，
       // 同时把 lightboxOpen 设为 true（触发弹窗显示），并禁止页面背景滚动
@@ -589,8 +618,8 @@ class Component extends DCLogic {
     this.initCardReveal();  // 启动"卡片滚动淡入"效果监听
     this.initNav();         // 启动"滚动后导航栏变白"效果监听
     this.initParallax();    // 启动首屏背景圆形光斑的视差滚动效果
-    // 监听键盘事件：按下 Esc 键时，如果灯箱弹窗正开着，就关闭它
-    this._key = (e)=>{ if(e.key==='Escape' && this.state.lightboxOpen){ this.setState({lightboxOpen:false}); document.body.style.overflow=''; } };
+    // 监听键盘事件：按下 Esc 键时，如果灯箱或二维码小窗正开着，就关闭它
+    this._key = (e)=>{ if(e.key!=='Escape') return; if(this.state.qrOpen){ this.setState({qrOpen:false}); document.body.style.overflow=''; } if(this.state.lightboxOpen){ this.setState({lightboxOpen:false}); document.body.style.overflow=''; } };
     window.addEventListener('keydown', this._key);
     // 鼠标拖尾特效：鼠标移动时（节流到每55毫秒最多生成一个），在鼠标位置创建一个随机的"✿"或"✦"小字符，
     // 设置好位置/大小/颜色后用 pawFade 动画播放淡出消失，动画播完(900ms)就把这个临时元素删掉，避免内存堆积
@@ -630,7 +659,7 @@ class Component extends DCLogic {
     const r=this.root(); if(!r) return;
     const t=this.props.theme || '晴空';
     const themes={
-      '晴空':{ grad:'linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%)', accent:'#f3805a', deep:'#6fb8e8' },
+      '晴空':{ grad:'linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%)', accent:'#00b3ff', deep:'#6fb8e8' },
       '暮色':{ grad:'linear-gradient(165deg,#dfe1fb 0%,#f1e6f6 45%,#fce3da 100%)', accent:'#e98aa8', deep:'#9a8fd6' },
       '竹林':{ grad:'linear-gradient(165deg,#d6efe0 0%,#eaf7ee 45%,#fdf6df 100%)', accent:'#5fae7a', deep:'#5aa6c0' },
     };

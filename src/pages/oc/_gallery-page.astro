@@ -18,12 +18,13 @@ const { kicker, heading, subtitle = "", items } = Astro.props as Props;
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{heading} · 雨枫 rainple</title>
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap"
-		/>
 		<style is:inline>
+			/* 本地字体声明：Fredoka(英文)与 ZCOOL KuaiLe(中文毛笔标题)存放在 public/oc/fonts/，无需联网 */
+			@font-face { font-family:'Fredoka'; font-style:normal; font-weight:400; font-display:swap; src:url(/oc/fonts/fredoka-400.woff2) format('woff2'); }
+			@font-face { font-family:'Fredoka'; font-style:normal; font-weight:500; font-display:swap; src:url(/oc/fonts/fredoka-500.woff2) format('woff2'); }
+			@font-face { font-family:'Fredoka'; font-style:normal; font-weight:600; font-display:swap; src:url(/oc/fonts/fredoka-600.woff2) format('woff2'); }
+			@font-face { font-family:'Fredoka'; font-style:normal; font-weight:700; font-display:swap; src:url(/oc/fonts/fredoka-700.woff2) format('woff2'); }
+			@font-face { font-family:'ZCOOL KuaiLe'; font-style:normal; font-weight:400; font-display:swap; src:url(/oc/fonts/zcool-kuaila-400.woff2) format('woff2'); }
 			:root {
 				--ink: #28435c;
 				--ink-soft: #6a8aa3;
@@ -38,7 +39,7 @@ const { kicker, heading, subtitle = "", items } = Astro.props as Props;
 				box-sizing: border-box;
 			}
 			body {
-				font-family: "Noto Sans SC", -apple-system, sans-serif;
+				font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
 				color: var(--ink);
 				background: linear-gradient(165deg, #cdeafb 0%, #e9f5fe 42%, #fdf2e0 100%);
 				background-attachment: fixed;

@@ -55,7 +55,7 @@ lang: ''
 
 这里给出一个真实项目的训练、改造过程，方便快速上手
 
-仓库地址：[T4强化学习 Isaac Gym 训练 \+ MuJoCo 评测](https://github.com/juyanlanfeng/rc-train-ppo.git)
+::github{repo="juyanlanfeng/rc-train-ppo"}
 
 这个框架仅仅作为示例使用，几乎没有实战经验，不适合改造使用，真正使用还是用成熟的开源框架
 

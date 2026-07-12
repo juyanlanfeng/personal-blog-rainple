@@ -23,17 +23,126 @@ const config = profileConfig;
         <div class="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2 transition"></div>
         <div class="text-center text-neutral-400 mb-2.5 transition">{config.bio}</div>
         <div class="flex flex-wrap gap-2 justify-center mb-1">
-            {config.links.length > 1 && config.links.map(item =>
-                    <a rel="me" aria-label={item.name} href={item.url} target="_blank" class="btn-regular rounded-lg h-10 w-10 active:scale-90">
+            {config.links.length > 1 && config.links.map(item => {
+                // url 是图片(二维码)时，点击弹小窗显示；否则正常跳转
+                const isQR = /\.(png|jpe?g|webp|gif)$/i.test(item.url);
+                return isQR
+                    ? <button type="button" aria-label={item.name} data-qr={item.url} data-qr-name={item.name}
+                            class="btn-regular rounded-lg h-10 w-10 active:scale-90 qr-trigger">
                         <Icon name={item.icon} class="text-[1.5rem]"></Icon>
-                    </a>
-            )}
-            {config.links.length == 1 && <a rel="me" aria-label={config.links[0].name} href={config.links[0].url} target="_blank"
-                                            class="btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95">
-                <Icon name={config.links[0].icon} class="text-[1.5rem]"></Icon>
-                {config.links[0].name}
-            </a>}
+                    </button>
+                    : <a rel="me" aria-label={item.name} href={item.url} target="_blank" class="btn-regular rounded-lg h-10 w-10 active:scale-90">
+                        <Icon name={item.icon} class="text-[1.5rem]"></Icon>
+                    </a>;
+            })}
+            {config.links.length == 1 && (() => {
+                const item = config.links[0];
+                const isQR = /\.(png|jpe?g|webp|gif)$/i.test(item.url);
+                return isQR
+                    ? <button type="button" aria-label={item.name} data-qr={item.url} data-qr-name={item.name}
+                            class="btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95 qr-trigger">
+                        <Icon name={item.icon} class="text-[1.5rem]"></Icon>
+                        {item.name}
+                    </button>
+                    : <a rel="me" aria-label={item.name} href={item.url} target="_blank"
+                            class="btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95">
+                        <Icon name={item.icon} class="text-[1.5rem]"></Icon>
+                        {item.name}
+                    </a>;
+            })()}
         </div>
     </div>
 </div>
+
+<script>
+// 社交二维码小窗弹窗：点击 QQ/微信等图片类链接时，弹出一个居中小窗显示二维码，
+// 而不是整页打开图片。点遮罩或 ✕ 或按 Esc 关闭。
+(function () {
+  function openQrModal(src, name) {
+    // 若已存在则先移除
+    closeQrModal();
+    const overlay = document.createElement('div');
+    overlay.className = 'qr-modal-overlay';
+    overlay.innerHTML =
+      '<div class="qr-modal-card">' +
+        '<button class="qr-modal-close" aria-label="关闭">✕</button>' +
+        '<img class="qr-modal-img" src="' + src + '" alt="' + (name || '二维码') + '">' +
+        '<div class="qr-modal-tip">' + (name || '二维码') + ' · 长按识别二维码</div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+    // 下一帧触发过渡动画
+    requestAnimationFrame(() => overlay.classList.add('qr-modal-show'));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeQrModal(); });
+    overlay.querySelector('.qr-modal-close').addEventListener('click', closeQrModal);
+  }
+  function closeQrModal() {
+    const overlay = document.querySelector('.qr-modal-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('qr-modal-show');
+    document.body.style.overflow = '';
+    setTimeout(() => overlay.remove(), 200);
+  }
+  // 事件委托：监听所有 qr-trigger 按钮（支持 Swup 页面切换后仍生效）
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.qr-trigger');
+    if (!btn) return;
+    e.preventDefault();
+    openQrModal(btn.dataset.qr, btn.dataset.qrName);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeQrModal(); });
+  // 暴露给 Swup 页面切换后重新绑定用（无需手动调用，事件委托已覆盖）
+  window.__qrModal = { open: openQrModal, close: closeQrModal };
+})();
+</script>
+
+<style is:global>
+/* 二维码小窗弹窗样式（全局，因为弹窗节点挂在 body 上） */
+.qr-modal-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 5vh 5vw;
+  background: rgba(28, 46, 64, 0);
+  backdrop-filter: blur(0px);
+  transition: background .2s ease, backdrop-filter .2s ease;
+}
+.qr-modal-overlay.qr-modal-show {
+  background: rgba(28, 46, 64, .82);
+  backdrop-filter: blur(8px);
+}
+.qr-modal-card {
+  position: relative;
+  max-width: min(86vw, 360px);
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.5);
+  transform: scale(.92);
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1);
+}
+.qr-modal-overlay.qr-modal-show .qr-modal-card { transform: scale(1); }
+.qr-modal-img {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 12px;
+}
+.qr-modal-tip {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #33485c;
+}
+.qr-modal-close {
+  position: absolute; top: -14px; right: -14px;
+  width: 36px; height: 36px; border: none; border-radius: 50%;
+  background: rgba(255,255,255,.95); color: #33485c; font-size: 18px;
+  cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.qr-modal-close:hover { background: #fff; }
+:global(.dark) .qr-modal-card { background: #1f2937; }
+:global(.dark) .qr-modal-tip { color: #cfe0ee; }
+</style>
 
