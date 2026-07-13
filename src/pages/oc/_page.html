@@ -78,13 +78,70 @@
   .rp-more-btn{ transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease; }
 /* 鼠标悬停“查看更多”按钮时：向上抬起、阴影加深、边框和文字变成主题强调色 */
 .rp-more-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(76,130,170,.22); border-color:var(--accent); color:var(--accent); }
+/* Hero atmosphere: several wide, low-contrast shapes make the empty sky feel layered without competing with the character art. */
+#top{ isolation:isolate; overflow:hidden; }
+.rp-sky-ribbon{ position:absolute; z-index:0; pointer-events:none; border-radius:999px; filter:blur(2px); opacity:.72; }
+.rp-sky-ribbon--one{ top:17%; left:-6%; width:38vw; height:10vw; min-height:90px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.48),transparent); transform:rotate(-7deg); }
+.rp-sky-ribbon--two{ right:18%; bottom:17%; width:34vw; height:8vw; min-height:72px; background:linear-gradient(90deg,transparent,rgba(255,245,220,.42),transparent); transform:rotate(8deg); }
+.rp-weather-layer{ position:absolute; inset:0; z-index:2; overflow:hidden; pointer-events:none; }
+.rp-rain{ --x:50%; --delay:0s; --dur:8s; --len:50px; position:absolute; top:-20%; left:var(--x); width:2.5px; height:var(--len); border-radius:999px; opacity:0; background:linear-gradient(180deg,transparent,rgba(111,184,232,.24) 18%,rgba(85,169,222,.82)); box-shadow:0 8px 14px rgba(79,159,211,.16); animation:gentleRain var(--dur) linear var(--delay) infinite; }
+.rp-rain::after{ content:''; position:absolute; left:50%; bottom:-5px; width:5px; height:8px; border-radius:60% 60% 65% 65%; background:rgba(111,184,232,.66); transform:translateX(-50%); box-shadow:0 3px 7px rgba(79,159,211,.2); }
+@keyframes gentleRain{ 0%{ transform:translate3d(36px,-18vh,0) rotate(8deg); opacity:0; } 9%{ opacity:.88; } 80%{ opacity:.68; } 100%{ transform:translate3d(-48px,122vh,0) rotate(8deg); opacity:0; } }
+/* 枫叶 (rp-maple) — 加拿大国旗款 11 尖枫叶 SVG，四种秋叶配色在 public/oc/maple-*.svg 里。
+   变体：autumn(秋橘 #f3805a) / russet(朱红 #d4634a) / persimmon(暖杏 #e8a854) / umber(赭石 #b86f4a) */
+.rp-maple{ --x:50%; --y:35%; --size:36px; --turn:0deg; --delay:0s; --dur:12s; position:absolute; left:var(--x); top:-24%; width:calc(var(--size) * 1.12); height:var(--size); opacity:.84; filter:drop-shadow(0 5px 5px rgba(104,68,45,.18)); animation:mapleFall var(--dur) linear var(--delay) infinite; }
+.rp-maple::before{ content:''; display:block; width:100%; height:100%; background:url(/oc/maple-autumn.svg) center/contain no-repeat; }
+/* 四种配色变体，各指向对应颜色的 SVG 文件；opacity 控制 CSS 透明度，svg 本身颜色已写死在文件里 */
+.rp-maple--autumn::before{ background-image:url(/oc/maple-autumn.svg); }
+.rp-maple--russet::before{ background-image:url(/oc/maple-russet.svg); }
+.rp-maple--persimmon::before{ background-image:url(/oc/maple-persimmon.svg); }
+.rp-maple--umber::before{ background-image:url(/oc/maple-umber.svg); }
+/* 不同变体的整体透明度区分远近层次 */
+.rp-maple--autumn{ opacity:.86; }
+.rp-maple--russet{ opacity:.78; }
+.rp-maple--persimmon{ opacity:.72; }
+.rp-maple--umber{ opacity:.66; }
+@keyframes mapleFall{ 0%{ transform:translate3d(12px,-16vh,0) rotate(var(--turn)); opacity:0; } 8%{ opacity:.84; } 32%{ transform:translate3d(34px,34vh,0) rotate(calc(var(--turn) + 145deg)); } 62%{ transform:translate3d(-24px,72vh,0) rotate(calc(var(--turn) + 295deg)); } 88%{ opacity:.74; } 100%{ transform:translate3d(20px,130vh,0) rotate(calc(var(--turn) + 510deg)); opacity:0; } }
+.rp-drop-charm{ --x:50%; --y:50%; --size:15px; --delay:0s; position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:52% 48% 54% 46% / 68% 68% 32% 32%; background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(134,205,245,.28)); border:1px solid rgba(111,184,232,.42); box-shadow:inset 3px 3px 4px rgba(255,255,255,.65),0 5px 12px rgba(111,184,232,.12); animation:dropBob 5.6s ease-in-out var(--delay) infinite; }
+.rp-drop-charm::after{ content:''; position:absolute; top:18%; left:27%; width:26%; height:26%; border-radius:50%; background:rgba(255,255,255,.88); }
+@keyframes dropBob{ 0%,100%{ transform:translateY(0) rotate(8deg); } 50%{ transform:translateY(-10px) rotate(-5deg); } }
+.rp-ripple{ position:absolute; width:clamp(80px,9vw,150px); height:clamp(20px,2.4vw,38px); border:1px solid rgba(111,184,232,.3); border-radius:50%; opacity:0; animation:waterRipple 5.8s ease-out infinite; }
+.rp-ripple::after{ content:''; position:absolute; inset:20%; border:1px solid rgba(111,184,232,.28); border-radius:inherit; }
+.rp-ripple--one{ left:9%; bottom:10%; animation-delay:-1.4s; }
+.rp-ripple--two{ right:8%; bottom:18%; animation-delay:-4.1s; }
+@keyframes waterRipple{ 0%{ transform:scale(.46); opacity:0; } 20%{ opacity:.52; } 78%,100%{ transform:scale(1.28); opacity:0; } }
+.rp-hero-orbit{ position:absolute; inset:-30px -34px; z-index:0; border:1px dashed rgba(111,184,232,.38); border-radius:42% 58% 48% 52%; animation:orbitTurn 34s linear infinite; }
+.rp-hero-orbit::before,.rp-hero-orbit::after{ content:''; position:absolute; width:10px; height:10px; border-radius:50%; box-shadow:0 0 0 7px rgba(255,255,255,.44); }
+.rp-hero-orbit::before{ top:18%; left:2%; background:var(--cream); }
+.rp-hero-orbit::after{ right:8%; bottom:8%; background:var(--sky-deep); }
+@keyframes orbitTurn{ to{ transform:rotate(360deg); } }
+.rp-horizon{ position:absolute; left:0; right:0; bottom:-1px; height:150px; z-index:1; pointer-events:none; background:linear-gradient(180deg,rgba(255,247,232,0),rgba(255,247,232,.46) 58%,var(--hero-bottom) 100%); }
+.rp-horizon::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:64px; background:linear-gradient(180deg,transparent,rgba(255,244,225,.34)); }
+.rp-marquee-zone{ position:relative; isolation:isolate; overflow:hidden; margin:-2px 0 0; padding:36px 0 44px; background:linear-gradient(180deg,var(--hero-bottom) 0%,#fff6e9 48%,var(--accent-wash) 100%); }
+.rp-marquee-zone::before{ content:'SOFT RAIN  /  MAPLE BREEZE  /  WARM CLOUD'; position:absolute; top:13px; left:clamp(22px,6vw,88px); font-family:'Fredoka',sans-serif; font-size:10px; font-weight:600; letter-spacing:3px; color:rgba(98,120,139,.52); }
+.rp-marquee-zone::after{ content:'\2726  \00B7  \2727'; position:absolute; right:clamp(24px,7vw,110px); top:8px; font-size:20px; letter-spacing:10px; color:rgba(243,128,90,.48); transform:rotate(7deg); }
+.rp-transition-leaf{ position:absolute; z-index:0; width:22px; height:22px; background:#f59c7e; opacity:.34; clip-path:polygon(50% 0,59% 24%,76% 13%,72% 37%,95% 34%,79% 52%,92% 64%,65% 64%,68% 91%,53% 73%,50% 100%,47% 73%,31% 91%,35% 64%,8% 64%,22% 52%,5% 34%,29% 37%,24% 13%,42% 24%); }
+.rp-transition-leaf--one{ top:6px; right:17%; transform:rotate(18deg); }
+.rp-transition-leaf--two{ bottom:7px; left:12%; width:17px; height:17px; background:#e5bd59; transform:rotate(-24deg); }
+.rp-marquee-strip{ overflow:hidden; background:linear-gradient(90deg,#f27858 0%,var(--accent) 48%,#f58e67 100%); transform:rotate(-1.15deg) scale(1.025); padding:14px 0; border-top:1px solid rgba(255,255,255,.55); border-bottom:1px solid rgba(209,91,56,.12); box-shadow:0 16px 34px rgba(218,112,76,.22),0 -10px 30px rgba(255,214,190,.2); }
+@media (max-width:720px){
+  .rp-sky-ribbon--one{ width:65vw; }
+  .rp-sky-ribbon--two{ width:58vw; right:-8%; bottom:21%; }
+  .rp-hero-orbit{ inset:-18px; }
+  .rp-horizon{ height:110px; }
+  .rp-marquee-zone{ padding:30px 0 34px; }
+  .rp-marquee-zone::before{ letter-spacing:2px; font-size:8px; }
+  .rp-rain--light,.rp-ripple--two{ display:none; }
+  .rp-maple{ opacity:.68; --size:30px; }
+}
+@media (prefers-reduced-motion:reduce){ .rp-hero-orbit,.rp-rain,.rp-maple,.rp-drop-charm,.rp-ripple{ animation:none; } .rp-rain{ display:none; } .rp-maple{ top:var(--y); } }
 </style>
 </helmet>
 
 <!-- 整个页面的最外层容器 div，id="rainple-root"；style 里一长串 --xxx 是“CSS变量”，
      相当于先定义好一批可复用的颜色（天蓝/奶黄/珊瑚色等），后面元素用 var(--xxx) 来引用，
      这样换主题时只改这里几个变量，全站颜色跟着变。position/width/overflow/color 是给这个容器本身设置定位、宽度、裁切溢出内容、默认文字颜色 -->
-<div id="rainple-root" data-screen-label="雨枫 rainple 主页" style="--sky:#a9d9f5; --sky2:#cdeafb; --sky-deep:#6fb8e8; --cream:#f5d98a; --cream2:#fbe6bd; --coral:#f3805a; --ink:#33485c; --ink-soft:#62788b; --paper:#f3fafe; --accent:#00b3ff; --hero-grad:linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%); position:relative; width:100%; overflow:hidden; color:var(--ink);">
+<div id="rainple-root" data-screen-label="雨枫 rainple 主页" style="--sky:#a9d9f5; --sky2:#cdeafb; --sky-deep:#6fb8e8; --cream:#f5d98a; --cream2:#fbe6bd; --coral:#f3805a; --ink:#33485c; --ink-soft:#62788b; --paper:#f3fafe; --accent:#00b3ff; --hero-bottom:#fff4e1; --accent-wash:#ffe2d3; --hero-grad:radial-gradient(ellipse at 84% 12%,rgba(255,255,255,.86),transparent 31%),radial-gradient(ellipse at 10% 76%,rgba(255,224,157,.26),transparent 31%),linear-gradient(180deg,#c9e9fb 0%,#e5f4fc 48%,#f5f7f1 76%,#fff4e1 100%); position:relative; width:100%; overflow:hidden; color:var(--ink);">
 
   <!-- ===== NAV：顶部导航栏区域 ===== -->
   <!-- <nav> 导航栏：固定贴在屏幕顶部(position:fixed top:0)，左右贴边(left/right:0)，
@@ -123,6 +180,39 @@
     <div id="rp-blob1" style="position:absolute; top:-8%; right:-6%; width:46vw; height:46vw; max-width:620px; max-height:620px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(255,255,255,.85), rgba(169,217,245,.35) 60%, transparent 72%); filter:blur(6px); animation:blobDrift 16s ease-in-out infinite; z-index:0;"></div>
     <!-- 背景装饰圆形光斑②：左下角奶黄色光斑，动画方向与①相反(reverse) -->
     <div id="rp-blob2" style="position:absolute; bottom:-14%; left:-10%; width:40vw; height:40vw; max-width:520px; max-height:520px; border-radius:50%; background:radial-gradient(circle at 50% 50%, rgba(251,230,189,.7), transparent 70%); filter:blur(10px); animation:blobDrift 22s ease-in-out infinite reverse; z-index:0;"></div>
+    <div class="rp-sky-ribbon rp-sky-ribbon--one" aria-hidden="true"></div>
+    <div class="rp-sky-ribbon rp-sky-ribbon--two" aria-hidden="true"></div>
+    <div class="rp-horizon" aria-hidden="true"></div>
+    <div class="rp-weather-layer" aria-hidden="true">
+      <i class="rp-rain" style="--x:5%; --delay:-1.4s; --dur:7.6s; --len:48px;"></i>
+      <i class="rp-rain rp-rain--light" style="--x:12%; --delay:-4.8s; --dur:8.4s; --len:62px;"></i>
+      <i class="rp-rain" style="--x:18%; --delay:-6.2s; --dur:8.1s; --len:54px;"></i>
+      <i class="rp-rain" style="--x:25%; --delay:-2.7s; --dur:7.2s; --len:68px;"></i>
+      <i class="rp-rain" style="--x:32%; --delay:-3.7s; --dur:7.8s; --len:46px;"></i>
+      <i class="rp-rain rp-rain--light" style="--x:39%; --delay:-6.9s; --dur:8.8s; --len:58px;"></i>
+      <i class="rp-rain" style="--x:46%; --delay:-1.9s; --dur:7.4s; --len:72px;"></i>
+      <i class="rp-rain" style="--x:54%; --delay:-5.1s; --dur:8.2s; --len:52px;"></i>
+      <i class="rp-rain rp-rain--light" style="--x:61%; --delay:-.6s; --dur:7.1s; --len:64px;"></i>
+      <i class="rp-rain" style="--x:68%; --delay:-4.4s; --dur:7.9s; --len:48px;"></i>
+      <i class="rp-rain" style="--x:75%; --delay:-2.2s; --dur:7.3s; --len:70px;"></i>
+      <i class="rp-rain rp-rain--light" style="--x:82%; --delay:-6.4s; --dur:8.6s; --len:56px;"></i>
+      <i class="rp-rain" style="--x:89%; --delay:-3.1s; --dur:7.7s; --len:66px;"></i>
+      <i class="rp-rain" style="--x:96%; --delay:-5.7s; --dur:8.3s; --len:50px;"></i>
+      <i class="rp-maple rp-maple--autumn" style="--x:8%; --y:24%; --size:60px; --turn:-18deg; --delay:-2s; --dur:11.4s;"></i>
+      <i class="rp-maple rp-maple--russet" style="--x:18%; --y:63%; --size:51px; --turn:22deg; --delay:-8.1s; --dur:13.2s;"></i>
+      <i class="rp-maple rp-maple--persimmon" style="--x:29%; --y:36%; --size:57px; --turn:-12deg; --delay:-5.4s; --dur:12.1s;"></i>
+      <i class="rp-maple rp-maple--umber" style="--x:40%; --y:16%; --size:68px; --turn:15deg; --delay:-10.3s; --dur:14.4s;"></i>
+      <i class="rp-maple rp-maple--autumn" style="--x:51%; --y:70%; --size:54px; --turn:-28deg; --delay:-1.1s; --dur:10.8s;"></i>
+      <i class="rp-maple rp-maple--russet" style="--x:62%; --y:43%; --size:63px; --turn:26deg; --delay:-7.2s; --dur:12.8s;"></i>
+      <i class="rp-maple rp-maple--persimmon" style="--x:72%; --y:21%; --size:51px; --turn:-9deg; --delay:-3.7s; --dur:11.7s;"></i>
+      <i class="rp-maple rp-maple--umber" style="--x:81%; --y:58%; --size:66px; --turn:18deg; --delay:-11.6s; --dur:14.8s;"></i>
+      <i class="rp-maple rp-maple--autumn" style="--x:91%; --y:33%; --size:56px; --turn:-24deg; --delay:-6.5s; --dur:13.6s;"></i>
+      <i class="rp-drop-charm" style="--x:25%; --y:82%; --size:13px; --delay:-1.2s;"></i>
+      <i class="rp-drop-charm" style="--x:61%; --y:17%; --size:17px; --delay:-4s;"></i>
+      <i class="rp-drop-charm" style="--x:84%; --y:48%; --size:11px; --delay:-2.7s;"></i>
+      <i class="rp-ripple rp-ripple--one"></i>
+      <i class="rp-ripple rp-ripple--two"></i>
+    </div>
     <!-- 漂浮文字气泡的容器：铺满整屏(inset:0)，不响应鼠标点击(pointer-events:none) -->
     <div style="position:absolute; inset:0; z-index:3; pointer-events:none;">
 
@@ -158,6 +248,7 @@
 
       <!-- 右列：人物配图区 -->
       <div data-reveal="" style="position:relative; justify-self:center;">
+        <div class="rp-hero-orbit" aria-hidden="true"></div>
         <!-- 圆角相框容器：固定宽高比3:2，白色描边，配合 bob 动画上下轻轻浮动 -->
         <div id="rp-hero-img" style="position:relative; width:clamp(300px,48vw,600px); aspect-ratio:3/2; border-radius:36px; overflow:hidden; box-shadow:0 30px 70px rgba(76,130,170,.32); border:6px solid rgba(255,255,255,.85); animation:bob 7s ease-in-out infinite;">
           <!-- 真正的人物立绘图片：object-fit:cover 让图片裁切填满相框而不变形 -->
@@ -179,7 +270,10 @@
 
   <!-- ===== MARQUEE：橙色跑马灯横条 ===== -->
   <!-- aria-hidden="true" 表示对屏幕阅读器隐藏（纯装饰，不是正文内容）；整体被旋转-1.5度并放大，制造“贴纸”斜放的效果 -->
-  <div aria-hidden="true" style="overflow:hidden; background:var(--accent); transform:rotate(-1.5deg) scale(1.04); margin:26px -12px; padding:13px 0; box-shadow:0 12px 30px #5ac3f347;">
+  <div class="rp-marquee-zone" aria-hidden="true">
+  <i class="rp-transition-leaf rp-transition-leaf--one"></i>
+  <i class="rp-transition-leaf rp-transition-leaf--two"></i>
+  <div class="rp-marquee-strip">
     <!-- 文字滚动轨道：宽度按内容自适应(width:max-content)，配合 marquee 动画持续向左滚动，循环26秒一轮 -->
     <div style="display:flex; width:max-content; white-space:nowrap; animation:marquee 26s linear infinite; font-family:'ZCOOL KuaiLe',cursive; font-size:21px; color:#fff; letter-spacing:1px;">
       <!-- 同样的文字重复写了两遍首尾相接，这样滚动到第二份时刚好能无缝接上第一份，看起来像无限循环 -->
@@ -187,6 +281,7 @@
       <span>雨枫 ✦ rainple ✦ 小狼龙 ✦ 会咬人（并不） ✦ 看起来不太聪明的样子 ✦&nbsp;</span>
       <span>雨枫 ✦ rainple ✦ 小狼龙 ✦ 会咬人（并不） ✦ 看起来不太聪明的样子 ✦&nbsp;</span>
     </div>
+  </div>
   </div>
 
   <!-- ===== ABOUT：关于介绍区块 ===== -->
@@ -659,12 +754,12 @@ class Component extends DCLogic {
     const r=this.root(); if(!r) return;
     const t=this.props.theme || '晴空';
     const themes={
-      '晴空':{ grad:'linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%)', accent:'#00b3ff', deep:'#6fb8e8' },
+      '晴空':{ grad:'linear-gradient(165deg,#cdeafb 0%,#e9f5fe 42%,#fdf2e0 100%)', accent:'#f3805a', deep:'#6fb8e8' },
       '暮色':{ grad:'linear-gradient(165deg,#dfe1fb 0%,#f1e6f6 45%,#fce3da 100%)', accent:'#e98aa8', deep:'#9a8fd6' },
       '竹林':{ grad:'linear-gradient(165deg,#d6efe0 0%,#eaf7ee 45%,#fdf6df 100%)', accent:'#5fae7a', deep:'#5aa6c0' },
     };
     const c=themes[t]||themes['晴空'];
-    r.style.setProperty('--hero-grad', c.grad);
+    r.style.setProperty('--hero-grad', 'radial-gradient(ellipse at 84% 12%,rgba(255,255,255,.86),transparent 31%),radial-gradient(ellipse at 10% 76%,rgba(255,224,157,.22),transparent 31%),'+c.grad);
     r.style.setProperty('--accent', c.accent);
     r.style.setProperty('--sky-deep', c.deep);
   }
